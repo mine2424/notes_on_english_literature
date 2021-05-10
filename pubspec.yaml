@@ -12,7 +12,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  flutter_localizations:
+    sdk: flutter
 
+  # Flutter/Dart official packages
+  intl: ^0.17.0
   cupertino_icons: ^1.0.2
 
   # Firebase packages
@@ -24,9 +29,8 @@ dependencies:
   firebase_ml_vision: ^0.12.0+1
 
   # objectbox packages
-  objectbox: ^0.14.0
-  objectbox_flutter_libs: ^0.14.0
-  objectbox_generator: ^0.14.0
+  # objectbox: ^0.14.0
+  # objectbox_flutter_libs: ^0.14.0
   flutter_state_notifier: ^0.7.0
 
 dev_dependencies:
@@ -34,6 +38,8 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.0.2
+  # objectbox_generator: ^0.14.0
 
 flutter:
   uses-material-design: true
+  generate: true
