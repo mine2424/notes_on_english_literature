@@ -19,6 +19,3 @@ It's use flutter_state_notfier package.
 
 - local: objectbox(^0.14.0)
 - cloud: Firestore(^2.0.0)
-
-
-
