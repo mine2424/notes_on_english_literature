@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+
+import 'package:notes_on_english_literature/pages/notes/widgets/book_card.dart';
+
+class NotesBookPage extends StatelessWidget {
+  const NotesBookPage();
+
+  @override
+  Widget build(BuildContext context) {
+    final list = [
+      'https://cdn-ak.f.st-hatena.com/images/fotolife/k/kidsmoo1221/20190511/20190511234947.jpg',
+      'https://sams-up.com/wp-content/uploads/2018/10/No-Rome%EF%BC%8FRIP-Indo-HisashiA-sha-.jpg',
+      'https://diy-magazine.s3.amazonaws.com/d/diy/Artists/N/No-Rome/DIY-82/No-Rome-by-Jenn-Five-DIY-mag-NOROME_0730_JF.jpg',
+      'https://www.universal-music.co.jp/the1975/wp-content/uploads/sites/1115/2016/08/The-1975-official-photo-2020.jpg',
+      'https://66.media.tumblr.com/18f3a10f6cd8cb849138f77d8a3f09a1/tumblr_inline_ptzcmmfz8B1s9on4d_540.jpg',
+      'https://i1.sndcdn.com/avatars-000697876198-3vxyjp-t500x500.jpg',
+      'https://www.nme.com/wp-content/uploads/2019/03/WYBCM-Easy-Life.jpg',
+      'https://sakuratapsmusic.info/wp-content/uploads/2018/07/a2312137774_10.jpg',
+      'https://diy-magazine.s3.amazonaws.com/d/diy/Artists/G/Girl-In-red/Girl-in-Red_-by-Chris-Almeida-1.png',
+    ];
+
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+          ),
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return BookCard(image: list[index]);
+          },
+        ),
+      ),
+    );
+  }
+}

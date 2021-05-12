@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 class User {
+  const User({
+    required this.uid,
+    required this.name,
+  });
+
   /// field
 
   final String uid;
   final String name;
 
   ///
-
-  User({
-    required this.uid,
-    required this.name,
-  });
 
   User copyWith({
     String? uid,
