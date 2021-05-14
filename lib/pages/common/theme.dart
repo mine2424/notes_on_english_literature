@@ -12,7 +12,7 @@ class AppTheme {
     return _themeData(
       colorScheme: const ColorScheme.light(
         primary: _lightColor,
-        background: _darkColor,
+        background: _lightColor,
         secondary: _secondaryColor,
       ),
     );
@@ -22,7 +22,7 @@ class AppTheme {
     return _themeData(
       colorScheme: ColorScheme.dark(
         primary: _darkColor,
-        background: _lightColor,
+        background: _darkColor,
         secondary: _secondaryColor,
         onPrimary: const ColorScheme.light().onPrimary,
       ),

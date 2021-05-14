@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:notes_on_english_literature/pages/app/app_notifier.dart';
 import 'package:notes_on_english_literature/pages/app/states/app_state.dart';
 import 'package:notes_on_english_literature/pages/common/theme.dart';
-import 'package:notes_on_english_literature/pages/home/home_page.dart';
 
 class App extends StatelessWidget {
   @override

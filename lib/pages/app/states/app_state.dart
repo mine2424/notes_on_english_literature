@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppState {
   const AppState({
-    this.themeMode = ThemeMode.light,
+    this.themeMode = ThemeMode.dark,
     this.isLoading = false,
   });
 

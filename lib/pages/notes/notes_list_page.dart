@@ -21,16 +21,19 @@ class NotesBookPage extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+            mainAxisSpacing: 8,
           ),
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return BookCard(image: list[index]);
+            return Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: BookCard(image: list[index]),
+            );
           },
         ),
       ),

@@ -8,7 +8,7 @@ abstract class CardBase {
       padding: const EdgeInsets.all(8),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: child(context),
         ),
       ),

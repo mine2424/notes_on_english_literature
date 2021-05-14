@@ -5,13 +5,11 @@ analyzer:
   errors:
     missing_required_param: error
     missing_return: error
-    todo: ignore
     deprecated_member_use_from_same_package: warning
     sdk_version_async_exported_from_core: ignore
     unnecessary_null_comparison: warning
   exclude:
     - "lib/**/**/models/*.dart"
-    - "lib/**/**/**/*.dart"
     - "lib/**/**/states/*_state.dart"
 
 linter:
