@@ -1,103 +1,168 @@
 import 'package:flutter/material.dart';
 
-class StructionHighlight {
-  StructionHighlight({
-    // required this.highlightTextStyles,
+class StructuredSentence extends StatelessWidget {
+  StructuredSentence({
+    // required this.highlightTextStylelist,
     required this.sentence,
-    // required this.terms,
-    this.textstyle,
+    this.normalTextstyle,
+    this.overflow = TextOverflow.clip,
   });
 
   final String sentence;
 
-  // final String terms;
+  final TextOverflow overflow;
 
-  // final Map<String, TextStyle> highlightTextStyles;
-  // final Map<String, dynamic> highlightTextStyles;
+  final TextStyle? normalTextstyle;
 
-  final TextStyle? textstyle;
+  final children = <TextSpan>[];
 
-  var children = <TextSpan>[];
-  var textChildren = <String>[];
+  @override
+  Widget build(BuildContext context) {
+    final highlightTextStyles = {
+      '//[': {
+        '[': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.yellow[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+      ']//': {
+        ']': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.yellow[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+      '//{': {
+        '{': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.red,
+              fontWeight: FontWeight.w700,
+            )
+      },
+      '}//': {
+        '}': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.red,
+              fontWeight: FontWeight.w700,
+            )
+      },
+      '//<': {
+        '<': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.green[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+      '>//': {
+        '>': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.green[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+      '//(': {
+        '(': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.blue[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+      ')//': {
+        ')': Theme.of(context).textTheme.bodyText1!.copyWith(
+              color: Colors.blue[400],
+              fontWeight: FontWeight.w700,
+            )
+      },
+    };
 
-  final regExpList = ['//[', ']//', '//{', '}//', '//<', '>//', '//(', ')//'];
+    // 取得した最後の正規表現の最後のindex
+    var regIndex = 0;
 
-  final highlightTextStylelist = {
-    '//[': {'[': const TextStyle()},
-    ']//': {']': const TextStyle()},
-    '//{': {'{': const TextStyle()},
-    '}//': {'}': const TextStyle()},
-    '//<': {'<': const TextStyle()},
-    '>//': {'>': const TextStyle()},
-    '//(': {'(': const TextStyle()},
-    ')//': {')': const TextStyle()},
-  };
+    bool isRegExpWord(int roopCount, String regExp, String allStringText) {
+      for (var i = 0; i < regExp.length; i++) {
+        if (roopCount + i == allStringText.length) {
+          return false;
+        }
 
-  // children.add(TextSpan(text: allStringText[i]));
-
-  // 取得した最後の正規表現の最後のindex
-  var regIndex = 0;
-
-  void generateTextChildren() {
-    print(highlightTextStylelist['//[']!.keys);
-
-    for (var i = 0; i < sentence.length; i++) {
-      for (var n = 0; n < regExpList.length; n++) {
-        _generateHighlightString(sentence, regExpList[n], i);
+        if (allStringText[roopCount + i] != regExp[i]) {
+          return false;
+        }
       }
+
+      return true;
     }
 
-    if (regIndex != sentence.length) {
-      // 最後の正規表現まで進んだら、最終正規表現の最後のindexから最後までがnormal style
-      textChildren.add(sentence.substring(regIndex, sentence.length));
+    void _addHighlightTextStyle(String regExp) {
+      children.add(TextSpan(
+        text: highlightTextStyles[regExp]!.keys.first,
+        style: highlightTextStyles[regExp]!.values.first,
+      ));
     }
 
-    print(textChildren.join());
-  }
+    void _addNormalTextStyle(String text) {
+      children.add(
+        TextSpan(
+          text: text,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                fontSize: 20,
+                letterSpacing: 1.5,
+              ),
+        ),
+      );
+    }
 
-  void _generateHighlightString(
-    String allStringText,
-    String regExp,
-    int roopCount,
-  ) {
-    for (var i = 0; i < regExp.length; i++) {
-      if (roopCount + i == allStringText.length) {
+    void _generateHighlightString(
+      String allStringText,
+      String regExp,
+      int roopCount,
+    ) {
+      // 正規表現が含まれているかどうか
+      if (!isRegExpWord(roopCount, regExp, allStringText)) {
         return;
       }
 
-      if (allStringText[roopCount + i] != regExp[i]) {
+      // 正規表現が一回目の時
+      if (regIndex == 0) {
+        // 0から正規表現の最初のindex分までがnormal styleとなる。
+        _addNormalTextStyle(allStringText.substring(0, roopCount));
+
+        // 正規表現の最初のindexと+3分までがhighlight styleとなる。
+        _addHighlightTextStyle(
+          allStringText.substring(roopCount, roopCount + 3),
+        );
+
+        // 正規表現の最後のindexを代入
+        regIndex = roopCount + 3;
+
         return;
       }
-    }
 
-    // 正規表現が一回目の時
-    if (regIndex == 0) {
-      // 0から正規表現の最初のindex分までがnormal styleとなる。
-      textChildren.add(allStringText.substring(0, roopCount));
+      // 全文の最後に正規表現があった時
+      if (roopCount == allStringText.length) {
+        return;
+      }
 
-      // 正規表現の最初のindexと+3分までがhighlight styleとなる。
-      textChildren.add(allStringText.substring(roopCount, roopCount + 3));
+      // 正規表現n - 正規表現(n-1)の差 = roopCount - regIndex
+      _addNormalTextStyle(allStringText.substring(regIndex, roopCount));
 
-      // 正規表現の最後のindexを代入
+      // 正規表現分
+      _addHighlightTextStyle(allStringText.substring(roopCount, roopCount + 3));
+
       regIndex = roopCount + 3;
 
       return;
     }
 
-    // 全文の最後に正規表現があった時
-    if (roopCount == allStringText.length) {
-      return;
+    // 英文の構造が示された文章を生成
+    for (var i = 0; i < sentence.length; i++) {
+      for (final regExp in highlightTextStyles.keys) {
+        _generateHighlightString(sentence, regExp, i);
+      }
     }
 
-    // 正規表現n - 正規表現(n-1)の差 = roopCount - regIndex
-    textChildren.add(allStringText.substring(regIndex, roopCount));
+    if (regIndex != sentence.length) {
+      // 最後の正規表現まで進んだら、最終正規表現の最後のindexから最後までがnormal style
+      _addNormalTextStyle(sentence.substring(regIndex, sentence.length));
+    }
 
-    // 正規表現分
-    textChildren.add(allStringText.substring(roopCount, roopCount + 3));
-
-    // 正規表現の最後のindexを代入
-    regIndex = roopCount + 3;
-
-    return;
+    return RichText(
+      overflow: overflow,
+      text: TextSpan(children: children),
+      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_on_english_literature/pages/notes/sentence_page.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
 
 class SentenceCard extends CardBase {
@@ -7,17 +8,28 @@ class SentenceCard extends CardBase {
   @override
   Widget child(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (_) => const SentencePage(),
+          ),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          ListTile(
+          const ListTile(
             title: Text('sentence'),
             subtitle: Text('memo'),
-            onTap: () {},
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (_) => const SentencePage(),
+                ),
+              );
+            },
             child: const Text('open'),
           ),
         ],

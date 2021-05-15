@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_on_english_literature/common/helpers/struction_highlight.dart';
 
 import 'package:notes_on_english_literature/pages/common/theme.dart';
 import 'package:notes_on_english_literature/pages/notes/note_page.dart';
@@ -13,15 +12,15 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push<void>(
-        //   MaterialPageRoute(
-        //     builder: (_) => NotePage(),
-        //   ),
-        // );
-        StructionHighlight(
-          sentence:
-              '//[Rapidly build modern websites //(without ever leaving)// your HTML.]//',
-        ).generateTextChildren();
+        Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (_) => NotePage(),
+          ),
+        );
+        // StructionHighlight(
+        //   sentence:
+        //       '//[Rapidly build modern websites //(without ever leaving)// your HTML.]//',
+        // ).generateTextChildren();
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
@@ -32,7 +31,7 @@ class BookCard extends StatelessWidget {
             Container(
               color: Colors.black,
               child: AnimatedOpacity(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 opacity: 0.5,
                 child: Image.network(
                   image,
