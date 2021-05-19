@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
-import 'package:notes_on_english_literature/pages/notes/notes_list_page.dart';
+import 'package:notes_on_english_literature/pages/notes/book_list/book_list_page.dart';
+import 'package:notes_on_english_literature/pages/notes/book/create_sentence_page.dart';
 
 class InitialPage extends StatefulWidget {
   @override
@@ -9,10 +10,10 @@ class InitialPage extends StatefulWidget {
 
 class _InitialPageState extends State<InitialPage> {
   final List<Widget> _children = [
-    const NotesBookPage(),
+    const BookBookPage(),
     const HomePage(),
     const SizedBox(),
-    const SizedBox(),
+    // const SizedBox(),
   ];
 
   final bottomBarItems = const [
@@ -20,7 +21,7 @@ class _InitialPageState extends State<InitialPage> {
       icon: Icon(
         Icons.source,
       ),
-      label: 'notes',
+      label: 'Notes',
     ),
     BottomNavigationBarItem(
       icon: Icon(
@@ -30,16 +31,14 @@ class _InitialPageState extends State<InitialPage> {
     ),
     BottomNavigationBarItem(
       icon: Icon(
-        Icons.tablet_android,
-      ),
-      label: 'Messages',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(
         Icons.question_answer,
       ),
-      label: 'Q&A',
+      label: 'Chats',
     ),
+    // BottomNavigationBarItem(
+    //   icon: Icon(Icons.phone_outlined),
+    //   label: 'Q&A',
+    // ),
   ];
 
   int _currentIndex = 1;
@@ -55,6 +54,18 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),
+        actions: (_currentIndex == 0)
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () => Navigator.of(context).push<void>(
+                    MaterialPageRoute(
+                      builder: (_) => CreateSentencePage(),
+                    ),
+                  ),
+                ),
+              ]
+            : null,
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

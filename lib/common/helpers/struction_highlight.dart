@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StructuredSentence extends StatelessWidget {
   StructuredSentence({
-    // required this.highlightTextStylelist,
+    required this.highlightTextStyles,
     required this.sentence,
     this.normalTextstyle,
     this.overflow = TextOverflow.clip,
@@ -14,61 +14,12 @@ class StructuredSentence extends StatelessWidget {
 
   final TextStyle? normalTextstyle;
 
+  final Map<String, Map<String, TextStyle>> highlightTextStyles;
+
   final children = <TextSpan>[];
 
   @override
   Widget build(BuildContext context) {
-    final highlightTextStyles = {
-      '//[': {
-        '[': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.yellow[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-      ']//': {
-        ']': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.yellow[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-      '//{': {
-        '{': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.red,
-              fontWeight: FontWeight.w700,
-            )
-      },
-      '}//': {
-        '}': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.red,
-              fontWeight: FontWeight.w700,
-            )
-      },
-      '//<': {
-        '<': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.green[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-      '>//': {
-        '>': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.green[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-      '//(': {
-        '(': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.blue[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-      ')//': {
-        ')': Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Colors.blue[400],
-              fontWeight: FontWeight.w700,
-            )
-      },
-    };
-
     // 取得した最後の正規表現の最後のindex
     var regIndex = 0;
 

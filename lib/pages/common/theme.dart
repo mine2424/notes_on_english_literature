@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-// 全般的に用いられる色
 const _lightColor = Color(0xFFfafafa);
 const _darkColor = Color(0xFF262A2D);
+
+// 全般的に用いられる色
 const _secondaryColor = Color(0xFFf15e6e);
+const _grayColor = Color(0xFFA0A4A8);
 
 class AppTheme {
   static ThemeData get light {
@@ -35,6 +37,9 @@ class AppTheme {
       textTheme: _textTheme(colorScheme),
     );
 
+    final _contraryColor =
+        (colorScheme.primary == _darkColor) ? _lightColor : _darkColor;
+
     return baseData.copyWith(
       appBarTheme: const AppBarTheme(centerTitle: true),
       backgroundColor: colorScheme.primary,
@@ -52,6 +57,10 @@ class AppTheme {
           textStyle: const TextStyle(color: _lightColor),
           backgroundColor: colorScheme.secondary,
         ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        unselectedItemColor: _contraryColor,
+        selectedItemColor: _secondaryColor,
       ),
     );
   }
@@ -88,29 +97,11 @@ class AppTheme {
               fontWeight: FontWeight.w300,
             ),
             caption: TextStyle(
-              fontSize: 12,
+              color: _grayColor,
+              fontSize: 14,
               fontWeight: FontWeight.w300,
             ),
           ),
         );
   }
-}
-
-extension ThemeExtension on BuildContext {
-  ThemeData get theme => Theme.of(this);
-  Color get primaryColor => theme.colorScheme.primary;
-  Color get secondaryColor => theme.colorScheme.secondary;
-  TextStyle get bodyText1 => theme.textTheme.bodyText1!;
-  TextStyle get bodyText2 => theme.textTheme.bodyText2!;
-  TextStyle get headline1 => theme.textTheme.headline1!;
-  TextStyle get headline2 => theme.textTheme.headline2!;
-  TextStyle get headline3 => theme.textTheme.headline3!;
-  TextStyle get headline4 => theme.textTheme.headline4!;
-  TextStyle get headline5 => theme.textTheme.headline5!;
-  TextStyle get headline6 => theme.textTheme.headline6!;
-  TextStyle get subtitle1 => theme.textTheme.subtitle1!;
-  TextStyle get subtitle2 => theme.textTheme.subtitle2!;
-  TextStyle get caption => theme.textTheme.caption!;
-  TextStyle get overline => theme.textTheme.overline!;
-  TextStyle get button => theme.textTheme.button!;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_on_english_literature/pages/notes/sentence_page.dart';
+import 'package:notes_on_english_literature/pages/notes/book/sentence_page.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
 
 class SentenceCard extends CardBase {

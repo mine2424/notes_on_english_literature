@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:notes_on_english_literature/pages/notes/widgets/book_card.dart';
 
-class NotesBookPage extends StatelessWidget {
-  const NotesBookPage();
+class BookBookPage extends StatelessWidget {
+  const BookBookPage();
 
   @override
   Widget build(BuildContext context) {

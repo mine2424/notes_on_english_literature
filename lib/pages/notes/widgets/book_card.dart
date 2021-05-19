@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes_on_english_literature/pages/common/theme.dart';
-import 'package:notes_on_english_literature/pages/notes/note_page.dart';
+import 'package:notes_on_english_literature/pages/notes/book/note_page.dart';
 
 class BookCard extends StatelessWidget {
   const BookCard({required this.image});
@@ -14,13 +13,10 @@ class BookCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push<void>(
           MaterialPageRoute(
-            builder: (_) => NotePage(),
+            fullscreenDialog: true,
+            builder: (_) => const NotePage(),
           ),
         );
-        // StructionHighlight(
-        //   sentence:
-        //       '//[Rapidly build modern websites //(without ever leaving)// your HTML.]//',
-        // ).generateTextChildren();
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
@@ -43,7 +39,10 @@ class BookCard extends StatelessWidget {
             Center(
               child: Text(
                 'great musicians!',
-                style: context.bodyText2.copyWith(color: Colors.white70),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: Colors.white70),
               ),
             ),
           ],

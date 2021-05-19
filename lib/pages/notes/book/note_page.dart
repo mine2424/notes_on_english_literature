@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_on_english_literature/pages/notes/widgets/sentence_card.dart';
 
 class NotePage extends StatelessWidget {
+  const NotePage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
