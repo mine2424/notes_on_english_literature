@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes_on_english_literature/pages/notes/widgets/book_card.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class BookBookPage extends StatelessWidget {
-  const BookBookPage();
+import 'package:notes_on_english_literature/pages/notes/widgets/note_card.dart';
+import 'package:notes_on_english_literature/pages/notes/widgets/note_dialog.dart';
+import 'package:notes_on_english_literature/widgets/button/floating_custom_button.dart';
+
+class NoteListPage extends HookWidget {
+  const NoteListPage();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,9 @@ class BookBookPage extends StatelessWidget {
       'https://sakuratapsmusic.info/wp-content/uploads/2018/07/a2312137774_10.jpg',
       'https://diy-magazine.s3.amazonaws.com/d/diy/Artists/G/Girl-In-red/Girl-in-Red_-by-Chris-Almeida-1.png',
     ];
+
+    final bookNameController =
+        useTextEditingController.fromValue(TextEditingValue.empty);
 
     return Scaffold(
       body: Padding(
@@ -36,6 +43,13 @@ class BookBookPage extends StatelessWidget {
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingCustomButton(
+        iconData: Icons.add,
+        label: 'Add Note',
+        onPressed: () {
+          BookDialog(controller: bookNameController).show(context);
+        },
       ),
     );
   }

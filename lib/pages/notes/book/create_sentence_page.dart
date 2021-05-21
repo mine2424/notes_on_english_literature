@@ -41,10 +41,13 @@ class CreateSentencePage extends HookWidget {
             textLines: 2,
           ),
           const SizedBox(height: 16),
-          NeumorphismButton(
-            text: 'aaa',
-            onTapLogic: () {},
-          ).show(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+            child: NeumorphismButton(
+              text: 'aaa',
+              onTapLogic: () {},
+            ).show(context),
+          ),
         ],
       ),
     );

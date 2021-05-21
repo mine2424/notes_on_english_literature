@@ -13,7 +13,7 @@ Basically,It's use the latest Flutter version of stable channel.
 
 ## state management
 
-It's use flutter_state_notfier package.
+It's use State_Notfier, Riverpod and Flutter_Hook.
 
 ## database
 

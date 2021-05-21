@@ -13,7 +13,6 @@ class BookCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push<void>(
           MaterialPageRoute(
-            fullscreenDialog: true,
             builder: (_) => const NotePage(),
           ),
         );

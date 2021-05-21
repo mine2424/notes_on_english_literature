@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
-import 'package:notes_on_english_literature/pages/notes/book_list/book_list_page.dart';
-import 'package:notes_on_english_literature/pages/notes/book/create_sentence_page.dart';
+import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
 
 class InitialPage extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class InitialPage extends StatefulWidget {
 
 class _InitialPageState extends State<InitialPage> {
   final List<Widget> _children = [
-    const BookBookPage(),
+    const NoteListPage(),
     const HomePage(),
     const SizedBox(),
     // const SizedBox(),
@@ -54,18 +54,6 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),
-        actions: (_currentIndex == 0)
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => Navigator.of(context).push<void>(
-                    MaterialPageRoute(
-                      builder: (_) => CreateSentencePage(),
-                    ),
-                  ),
-                ),
-              ]
-            : null,
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

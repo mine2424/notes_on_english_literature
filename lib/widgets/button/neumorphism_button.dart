@@ -8,6 +8,21 @@ class NeumorphismButton extends ButtonBase {
   final VoidCallback? onTapLogic;
 
   @override
+  void onPressed() => onTapLogic;
+
+  @override
+  double get horizontal => 24;
+
+  @override
+  double get vertical => 0;
+
+  @override
+  double get innerHorizontal => 0;
+
+  @override
+  double get innerVertical => 10;
+
+  @override
   ButtonStyle buttonStyle(BuildContext context) {
     return Theme.of(context).elevatedButtonTheme.style!;
   }
@@ -21,7 +36,4 @@ class NeumorphismButton extends ButtonBase {
       style: Theme.of(context).textTheme.bodyText2,
     );
   }
-
-  @override
-  void onPressed() => onTapLogic;
 }
