@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
+import 'package:notes_on_english_literature/pages/onBoarding/onBoarding_page.dart';
 
 class InitialPage extends StatefulWidget {
   @override
@@ -12,7 +13,8 @@ class _InitialPageState extends State<InitialPage> {
   final List<Widget> _children = [
     const NoteListPage(),
     const HomePage(),
-    const SizedBox(),
+    OnBoardingPage(),
+    // const SizedBox(),
     // const SizedBox(),
   ];
 
