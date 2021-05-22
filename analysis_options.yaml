@@ -9,8 +9,8 @@ analyzer:
     sdk_version_async_exported_from_core: ignore
     unnecessary_null_comparison: warning
   exclude:
-    - "lib/**/**/models/*.dart"
-    - "lib/**/**/states/*_state.dart"
+    # - "lib/**/**/models/*.dart"
+    # - "lib/**/**/states/*_state.dart"
 
 linter:
   rules:

@@ -11,6 +11,7 @@ class SentenceCard extends CardBase {
       onTap: () {
         Navigator.of(context).push<void>(
           MaterialPageRoute(
+            fullscreenDialog: true,
             builder: (_) => const SentencePage(),
           ),
         );
@@ -26,6 +27,7 @@ class SentenceCard extends CardBase {
             onPressed: () {
               Navigator.of(context).push<void>(
                 MaterialPageRoute(
+                  fullscreenDialog: true,
                   builder: (_) => const SentencePage(),
                 ),
               );
