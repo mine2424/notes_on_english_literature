@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notes_on_english_literature/widgets/button/button_base.dart';
 
 class NeumorphismButton extends ButtonBase {
-  const NeumorphismButton({required this.text, this.onTapLogic});
+  const NeumorphismButton({required this.text, required this.onTapLogic});
 
   final String text;
-  final VoidCallback? onTapLogic;
-
-  @override
-  void onPressed() => onTapLogic;
+  final VoidCallback onTapLogic;
 
   @override
   double get horizontal => 24;
@@ -36,4 +33,7 @@ class NeumorphismButton extends ButtonBase {
       style: Theme.of(context).textTheme.bodyText2,
     );
   }
+
+  @override
+  VoidCallback get onPressed => onTapLogic;
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:notes_on_english_literature/pages/app/app_provider.dart';
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
 import 'package:notes_on_english_literature/pages/onBoarding/onBoarding_page.dart';
 
-class InitialPage extends StatefulWidget {
+class InitialPage extends StatefulHookWidget {
   @override
   _InitialPageState createState() => _InitialPageState();
 }
@@ -13,8 +16,7 @@ class _InitialPageState extends State<InitialPage> {
   final List<Widget> _children = [
     const NoteListPage(),
     const HomePage(),
-    OnBoardingPage(),
-    // const SizedBox(),
+    const SizedBox(),
     // const SizedBox(),
   ];
 
@@ -51,8 +53,16 @@ class _InitialPageState extends State<InitialPage> {
     });
   }
 
+  Future<void> checkForcedUpdate(BuildContext context) async {
+    context.read(appNotifierProvider.notifier).checkForcedUpdate();
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await checkForcedUpdate(context);
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),

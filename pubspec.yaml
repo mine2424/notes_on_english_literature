@@ -17,7 +17,10 @@ dependencies:
     sdk: flutter
 
   # Flutter/Dart official packages
+  async:
   intl: ^0.17.0
+  pub_semver: ^2.0.0
+  package_info: ^2.0.0
   cupertino_icons: ^1.0.2
 
   # Firebase packages
@@ -26,6 +29,7 @@ dependencies:
   firebase_auth: ^1.1.4
   firebase_storage: ^8.0.6
   firebase_messaging: ^9.1.4
+  firebase_remote_config: ^0.10.0-dev.4
 
   # Google packages
   google_ml_kit: ^0.2.0

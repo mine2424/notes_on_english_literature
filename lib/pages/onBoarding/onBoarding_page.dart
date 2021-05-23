@@ -1,9 +1,18 @@
+import 'package:flutter/material.dart';
+
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:notes_on_english_literature/di_container.dart';
+import 'package:notes_on_english_literature/pages/app/user_provider.dart';
+import 'package:notes_on_english_literature/pages/initial_page.dart';
 import 'package:notes_on_english_literature/widgets/button/radius_button.dart';
 
-class OnBoardingPage extends StatelessWidget {
+class OnBoardingPage extends HookWidget {
+  const OnBoardingPage();
+
   @override
   Widget build(BuildContext context) {
     final carouselController = CarouselController();
@@ -50,15 +59,27 @@ class OnBoardingPage extends StatelessWidget {
             ),
             const SizedBox(height: 64),
             RadiusButton(
-              onTapLogic: () {},
-              text: 'そのまま進む',
+              onTapLogic: () async {
+                final isLogin = await context
+                    .read(userNotifierProvider.notifier)
+                    .signInAnonymously();
+
+                if (isLogin) {
+                  context
+                      .read(appNotifierProvider.notifier)
+                      .push(InitialPage());
+                }
+              },
+              text: '新しく始める',
               textStyle: Theme.of(context)
                   .textTheme
                   .bodyText1!
                   .copyWith(fontSize: 20, color: Colors.blue[400]),
             ).show(context),
             RadiusButton(
-              onTapLogic: () {},
+              onTapLogic: () {
+                context.read(appNotifierProvider.notifier).push(InitialPage());
+              },
               text: 'データを引き継ぐ',
               textStyle:
                   Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),

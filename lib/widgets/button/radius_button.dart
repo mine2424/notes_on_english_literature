@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import 'package:notes_on_english_literature/widgets/button/button_base.dart';
@@ -34,13 +36,13 @@ class RadiusButton extends ButtonBase {
   double get innerVertical => 8;
 
   @override
-  void onPressed() => onTapLogic;
-
-  @override
   Widget textWidget(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
+      style: textStyle,
     );
   }
+
+  @override
+  VoidCallback get onPressed => onTapLogic;
 }

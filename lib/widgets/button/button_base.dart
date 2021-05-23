@@ -9,7 +9,7 @@ abstract class ButtonBase {
   double get innerVertical;
   double get innerHorizontal;
 
-  void onPressed();
+  VoidCallback get onPressed;
 
   ButtonStyle buttonStyle(BuildContext context);
 

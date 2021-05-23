@@ -8,7 +8,7 @@ class UserState {
   //enum
   final AuthStatus authStatus;
 
-  UserState({
+  const UserState({
     this.authStatus = AuthStatus.none,
   });
 
