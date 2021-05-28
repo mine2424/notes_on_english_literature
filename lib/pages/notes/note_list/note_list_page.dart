@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notes_on_english_literature/pages/notes/note_list/note_list_provider.dart';
 
 import 'package:notes_on_english_literature/pages/notes/widgets/note_card.dart';
 import 'package:notes_on_english_literature/pages/notes/widgets/note_dialog.dart';
@@ -23,6 +25,13 @@ class NoteListPage extends HookWidget {
       'https://diy-magazine.s3.amazonaws.com/d/diy/Artists/G/Girl-In-red/Girl-in-Red_-by-Chris-Almeida-1.png',
     ];
 
+    final noteListNotifier = context.read(noteListNotifierProvider.notifier);
+
+    useEffect(() {
+      noteListNotifier.fetchNoteListForLocalDB();
+      return;
+    }, const []);
+
     final bookNameController =
         useTextEditingController.fromValue(TextEditingValue.empty);
 
@@ -39,7 +48,12 @@ class NoteListPage extends HookWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: BookCard(image: list[index]),
+              child: BookCard(
+                image: list[index],
+                onLongPress: () {
+                  // TODO: update or delete dialog
+                },
+              ),
             );
           },
         ),
@@ -48,7 +62,14 @@ class NoteListPage extends HookWidget {
         iconData: Icons.add,
         label: 'Add Note',
         onPressed: () {
-          BookDialog(controller: bookNameController).show(context);
+          BookDialog(
+            controller: bookNameController,
+            selectingImage: () {
+              context
+                  .read(noteListNotifierProvider.notifier)
+                  .selectedImageFromGallary();
+            },
+          ).show(context);
         },
       ),
     );

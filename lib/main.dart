@@ -12,7 +12,7 @@ Future<void> main() async {
   /// Firebase
   await _initFirebase();
 
-  runApp(ProviderScope(child: App()));
+  runApp(const ProviderScope(child: App()));
 }
 
 Future<void> _initFirebase() async {

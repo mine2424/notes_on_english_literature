@@ -10,7 +10,7 @@ class SentencePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.close_outlined),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -47,7 +47,6 @@ class SentencePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //TODO: なんか、各行に線入れたい
                   Text(
                     '対訳',
                     style: Theme.of(context).textTheme.bodyText1,

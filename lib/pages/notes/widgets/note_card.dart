@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:notes_on_english_literature/pages/notes/book/note_page.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({required this.image});
+  const BookCard({
+    required this.image,
+    required this.onLongPress,
+  });
 
   final String image;
+  final VoidCallback onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +21,7 @@ class BookCard extends StatelessWidget {
           ),
         );
       },
+      onLongPress: onLongPress,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: Stack(

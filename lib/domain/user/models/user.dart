@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 @immutable
 class User {
   const User({
-    required this.uid,
-    required this.name,
+    this.uid = '',
+    this.name = '',
   });
 
   /// field

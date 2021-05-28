@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notes_on_english_literature/di_container.dart';
 
-import 'package:notes_on_english_literature/pages/app/app_provider.dart';
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
-import 'package:notes_on_english_literature/pages/onBoarding/onBoarding_page.dart';
 
 class InitialPage extends StatefulHookWidget {
+  const InitialPage();
   @override
   _InitialPageState createState() => _InitialPageState();
 }
@@ -17,7 +18,6 @@ class _InitialPageState extends State<InitialPage> {
     const NoteListPage(),
     const HomePage(),
     const SizedBox(),
-    // const SizedBox(),
   ];
 
   final bottomBarItems = const [
@@ -39,10 +39,6 @@ class _InitialPageState extends State<InitialPage> {
       ),
       label: 'Chats',
     ),
-    // BottomNavigationBarItem(
-    //   icon: Icon(Icons.phone_outlined),
-    //   label: 'Q&A',
-    // ),
   ];
 
   int _currentIndex = 1;
@@ -66,6 +62,16 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),
+        actions: (_currentIndex == 0)
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.info_outline),
+                  iconSize: 26,
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 8)
+              ]
+            : null,
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

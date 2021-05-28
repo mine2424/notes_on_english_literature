@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 import 'package:notes_on_english_literature/widgets/button/button_base.dart';
@@ -24,13 +22,13 @@ class RadiusButton extends ButtonBase {
   }
 
   @override
-  double get horizontal => 32;
+  double get horizontal => 8;
 
   @override
   double get vertical => 8;
 
   @override
-  double get innerHorizontal => 24;
+  double get innerHorizontal => 16;
 
   @override
   double get innerVertical => 8;

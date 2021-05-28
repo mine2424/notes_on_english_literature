@@ -84,8 +84,12 @@ class AppTheme {
               fontSize: 36,
               fontWeight: FontWeight.w300,
             ),
-            headline6: TextStyle(
+            headline5: TextStyle(
               fontSize: 32,
+              fontWeight: FontWeight.w300,
+            ),
+            headline6: TextStyle(
+              fontSize: 28,
               fontWeight: FontWeight.w300,
             ),
             bodyText1: TextStyle(

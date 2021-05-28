@@ -22,36 +22,20 @@ class AccentForm extends StatelessWidget {
           const SizedBox(height: 8),
           Container(
             decoration: BoxDecoration(
-              // TODO(mine2424): 要修正
               color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.1),
-                  offset: Offset(6, 2),
-                  blurRadius: 6.0,
-                  spreadRadius: 3.0,
-                ),
-                // BoxShadow(
-                //   color: Color.fromRGBO(255, 255, 255, 0.9),
-                //   offset: Offset(-6, -2),
-                //   blurRadius: 6.0,
-                //   spreadRadius: 3.0,
-                // ),
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.1),
-                  offset: Offset(-6, -2),
-                  blurRadius: 6.0,
-                  spreadRadius: 3.0,
-                )
-              ],
             ),
             child: TextField(
               maxLines: textLines,
               cursorColor: Theme.of(context).accentColor,
               controller: controller,
               decoration: const InputDecoration(
-                border: InputBorder.none,
+                border: OutlineInputBorder(
+                  gapPadding: 16,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
                 contentPadding: EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 12,

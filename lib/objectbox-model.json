@@ -1,0 +1,120 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1462653170498243876",
+      "lastPropertyId": "2:2220080956132263304",
+      "name": "AppState",
+      "properties": [
+        {
+          "id": "1:746379728978253425",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2220080956132263304",
+          "name": "isLoading",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:4129672664802033205",
+      "lastPropertyId": "1:1735588225475401317",
+      "name": "NoteList",
+      "properties": [
+        {
+          "id": "1:1735588225475401317",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:8366181238560735452",
+      "lastPropertyId": "3:6164772861049343954",
+      "name": "Note",
+      "properties": [
+        {
+          "id": "1:3517216062718913126",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3287509733782886562",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:6164772861049343954",
+          "name": "imageUrl",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:7080524811407016804",
+      "lastPropertyId": "6:646529916350438874",
+      "name": "Sentence",
+      "properties": [
+        {
+          "id": "1:3658573425521014314",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5093136888151983766",
+          "name": "naturalSentence",
+          "type": 9
+        },
+        {
+          "id": "3:5027577073882375473",
+          "name": "structedSentence",
+          "type": 9
+        },
+        {
+          "id": "4:385265629342532950",
+          "name": "transration",
+          "type": 9
+        },
+        {
+          "id": "5:4530850885473351735",
+          "name": "grammerMemo",
+          "type": 9
+        },
+        {
+          "id": "6:646529916350438874",
+          "name": "watchCount",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "6:7080524811407016804",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    4044328655174730633,
+    5186892203056828466
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    1225859699293859474,
+    5109229731711670843
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

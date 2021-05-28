@@ -8,20 +8,32 @@ enum AppUpdateAvailability {
   required,
 }
 
+enum AppUnderMaintenance {
+  none,
+  error,
+  underMaintenance,
+  available,
+}
+
 class AppService {
   final remoteConfig = RemoteConfig.instance;
 
   var _targetVersion = '0.0.0';
   var _status = AppUpdateAvailability.none;
+  var _maintenanceStatus = AppUnderMaintenance.none;
 
-  static String kRemoteConfigCanUpdateIfBefore = 'can_update_if_before';
-  static String kRemoteConfigIsUpdateRequired = 'is_update_required';
+  AppUnderMaintenance get maintenanceStatus => _maintenanceStatus;
+
+  static String canUpdateIfBefore = 'can_update_if_before';
+  static String isUpdateRequired = 'is_update_required';
+  static String isUnderMaintenance = 'is_Mentenance';
 
   /// firebase remote configの初期化
   static Future<void> prepare() async {
     RemoteConfig.instance.setDefaults(<String, dynamic>{
-      kRemoteConfigCanUpdateIfBefore: '0.0.0',
-      kRemoteConfigIsUpdateRequired: false,
+      canUpdateIfBefore: '0.0.0',
+      isUpdateRequired: false,
+      isUnderMaintenance: false,
     });
   }
 
@@ -36,6 +48,7 @@ class AppService {
   void _reset() {
     _targetVersion = '0.0.0';
     _status = AppUpdateAvailability.none;
+    _maintenanceStatus = AppUnderMaintenance.none;
   }
 
   Future<void> _fetchUpdateInfo() async {
@@ -44,13 +57,17 @@ class AppService {
     try {
       await remoteConfig.fetchAndActivate();
     } on Exception catch (e) {
+      print(e);
       return;
     }
 
-    _targetVersion = remoteConfig.getString(kRemoteConfigCanUpdateIfBefore);
-    _status = remoteConfig.getBool(kRemoteConfigIsUpdateRequired)
+    _targetVersion = remoteConfig.getString(canUpdateIfBefore);
+    _status = remoteConfig.getBool(isUpdateRequired)
         ? AppUpdateAvailability.required
         : AppUpdateAvailability.available;
+    _maintenanceStatus = remoteConfig.getBool(isUnderMaintenance)
+        ? AppUnderMaintenance.underMaintenance
+        : AppUnderMaintenance.available;
   }
 
   Future<String?> appVersion() async {
@@ -59,6 +76,7 @@ class AppService {
       final packageInfo = await PackageInfo.fromPlatform();
       return packageInfo.version;
     } on Exception catch (e) {
+      print(e);
       return null;
     }
   }
@@ -79,6 +97,7 @@ class AppService {
       return currentVersion.compareTo(targetVersion).isNegative;
     } on Exception catch (e) {
       // バージョンの比較に失敗した場合はアップデート不要扱いにする
+      print(e);
       return false;
     }
   }

@@ -1,4 +1,31 @@
-///Dependency Injection
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-export './pages/app/app_provider.dart';
-export './pages/app/user_provider.dart';
+import 'package:notes_on_english_literature/domain/app/app_service.dart';
+import 'package:notes_on_english_literature/pages/app/app_notifier.dart';
+import 'package:notes_on_english_literature/pages/app/states/app_state.dart';
+
+import 'package:notes_on_english_literature/domain/user/user_service.dart';
+import 'package:notes_on_english_literature/pages/app/states/user_state.dart';
+import 'package:notes_on_english_literature/pages/app/user_notifier.dart';
+
+/// Dependency Injection Container
+
+/// Logic / StateNotifier
+final appNotifierProvider = StateNotifierProvider<AppNotifier, AppState>(
+  (ref) => AppNotifier(appService: ref.watch(appServiceProvider)),
+);
+
+/// Repository
+final appServiceProvider = Provider<AppService>(
+  (_) => AppService(),
+);
+
+/// Logic / StateNotifier
+final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
+  (ref) => UserNotifier(userSeivice: ref.watch(userServiceProvider)),
+);
+
+/// Repository
+final userServiceProvider = Provider<UserService>(
+  (_) => UserService(),
+);

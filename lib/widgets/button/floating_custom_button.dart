@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes_on_english_literature/pages/notes/widgets/note_dialog.dart';
-
 class FloatingCustomButton extends StatelessWidget {
   const FloatingCustomButton({
     required this.onPressed,

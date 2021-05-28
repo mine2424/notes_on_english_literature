@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 class UncloseDialog {
   const UncloseDialog({
     required this.closeAppOnBack,
-    required this.title,
+    this.title,
     required this.content,
     required this.actions,
   });
 
   final bool closeAppOnBack;
 
-  final String title;
+  final String? title;
   final String content;
 
   final List<Widget> actions;
@@ -29,7 +29,7 @@ class UncloseDialog {
       child: AlertDialog(
         scrollable: true,
         elevation: 24,
-        title: dialogTitle(context),
+        title: (title == null) ? null : dialogTitle(context),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -58,7 +58,7 @@ class UncloseDialog {
 
   Widget dialogTitle(BuildContext context) {
     return Text(
-      title,
+      title!,
       style: Theme.of(context).textTheme.bodyText1,
     );
   }

@@ -1,29 +1,34 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:objectbox/objectbox.dart';
 
+@Entity()
 @immutable
 class AppState {
-  const AppState({
-    this.themeMode = ThemeMode.dark,
-    this.isLoading = false,
-  });
-
   /// field
 
   //enum
-  final ThemeMode themeMode;
-  final bool isLoading;
+  ThemeMode themeMode;
+  bool isLoading;
 
-  ///
+  int id;
+
+  AppState({
+    this.themeMode = ThemeMode.dark,
+    this.isLoading = false,
+    this.id = 0,
+  });
 
   AppState copyWith({
     ThemeMode? themeMode,
     bool? isLoading,
+    int? id,
   }) {
     return AppState(
       themeMode: themeMode ?? this.themeMode,
       isLoading: isLoading ?? this.isLoading,
+      id: id ?? this.id,
     );
   }
 
@@ -31,6 +36,7 @@ class AppState {
     return <String, dynamic>{
       'themeMode': themeMode.index,
       'isLoading': isLoading,
+      'id': id,
     };
   }
 
@@ -38,6 +44,7 @@ class AppState {
     return AppState(
       themeMode: ThemeMode.values[map['themeMode'] as int],
       isLoading: map['isLoading'] as bool,
+      id: map['id'] as int,
     );
   }
 
@@ -47,7 +54,8 @@ class AppState {
       AppState.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'AppState(themeMode: $themeMode, isLoading: $isLoading)';
+  String toString() =>
+      'AppState(themeMode: $themeMode, isLoading: $isLoading, id: $id)';
 
   @override
   bool operator ==(Object other) {
@@ -57,9 +65,10 @@ class AppState {
 
     return other is AppState &&
         other.themeMode == themeMode &&
-        other.isLoading == isLoading;
+        other.isLoading == isLoading &&
+        other.id == id;
   }
 
   @override
-  int get hashCode => themeMode.hashCode ^ isLoading.hashCode;
+  int get hashCode => themeMode.hashCode ^ isLoading.hashCode ^ id.hashCode;
 }
