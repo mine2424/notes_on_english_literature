@@ -32,13 +32,14 @@ class NotesRepository {
     await _initializingObjectBox();
     final box = store!.box<Note>();
 
-    print(box.getAll());
     return box.getAll();
   }
 
-  Future<void> deleteNoteListForLocalDB() async {
+  Future<void> deleteNoteListForLocalDB(int id) async {
     await _initializingObjectBox();
     final box = store!.box<Note>();
+
+    box.remove(id);
     store!.close();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/domain/app/app_service.dart';
+import 'package:notes_on_english_literature/domain/notes/notes_repository.dart';
 import 'package:notes_on_english_literature/pages/app/app_notifier.dart';
 import 'package:notes_on_english_literature/pages/app/states/app_state.dart';
 
@@ -20,12 +21,17 @@ final appServiceProvider = Provider<AppService>(
   (_) => AppService(),
 );
 
+/// Repository
+final userServiceProvider = Provider<UserService>(
+  (_) => UserService(),
+);
+
 /// Logic / StateNotifier
 final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
   (ref) => UserNotifier(userSeivice: ref.watch(userServiceProvider)),
 );
 
 /// Repository
-final userServiceProvider = Provider<UserService>(
-  (_) => UserService(),
+final notesRepositoryProvider = Provider<NotesRepository>(
+  (_) => NotesRepository(),
 );

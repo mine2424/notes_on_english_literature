@@ -44,7 +44,7 @@ class CreateSentencePage extends HookWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
             child: NeumorphismButton(
-              text: 'aaa',
+              text: 'create',
               onTapLogic: () {},
             ).show(context),
           ),

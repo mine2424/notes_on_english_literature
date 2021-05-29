@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,23 +13,28 @@ class NoteListNotifier extends StateNotifier<NoteList> {
   }
 
   final NotesRepository notesRepository;
-  File? imageFile;
 
-  Future<void> selectedImageFromGallary() async {
+  Future<void> selectedImageFromGallary(String title) async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       imageQuality: 60,
     );
 
-    imageFile = File(pickedFile!.path);
+    state = state.copyWith(imagePath: pickedFile!.path);
   }
 
-  void addUpdateNoteListForLocalDB(Note note) {
-    notesRepository.addUpdateNoteListForLocalDB(note);
+  Future<void> addUpdateNoteListForLocalDB(Note note) async {
+    await notesRepository.addUpdateNoteListForLocalDB(note);
+    await fetchNoteListForLocalDB();
   }
 
   Future<void> fetchNoteListForLocalDB() async {
     final list = await notesRepository.fetchNoteListForLocalDB();
     state = state.copyWith(noteList: list);
+  }
+
+  Future<void> deleteNoteListForLocalDB(int id) async {
+    await notesRepository.deleteNoteListForLocalDB(id);
+    await fetchNoteListForLocalDB();
   }
 }

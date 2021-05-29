@@ -6,6 +6,7 @@ import 'package:notes_on_english_literature/di_container.dart';
 
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
+import 'package:notes_on_english_literature/widgets/button/info_button.dart';
 
 class InitialPage extends StatefulHookWidget {
   const InitialPage();
@@ -62,16 +63,7 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),
-        actions: (_currentIndex == 0)
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.info_outline),
-                  iconSize: 26,
-                  onPressed: () {},
-                ),
-                const SizedBox(width: 8)
-              ]
-            : null,
+        actions: (_currentIndex == 0) ? [InfoButton(onPressed: () {})] : null,
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

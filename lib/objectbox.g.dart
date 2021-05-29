@@ -59,7 +59,7 @@ ModelDefinition getObjectBoxModel() {
         ],
         "relations": [],
         "backlinks": [],
-        "constructorParams": ["noteList named", "id named"],
+        "constructorParams": ["noteList named", "imageFile named", "id named"],
         "nullSafetyEnabled": true
       },
       {

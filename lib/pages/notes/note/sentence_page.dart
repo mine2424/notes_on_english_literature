@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes_on_english_literature/pages/notes/widgets/struction_card.dart';
+import 'package:notes_on_english_literature/pages/notes/book/struction_card.dart';
 
 class SentencePage extends StatelessWidget {
   const SentencePage();
