@@ -22,7 +22,7 @@ class MyNotesCard extends CardBase {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Calculation based on a root font-size of 16 pixel.',
                 ),
                 subtitle: Text(

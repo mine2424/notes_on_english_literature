@@ -6,6 +6,5 @@ enum AuthStatus {
   apple,
   none,
 
-  unknowError,
-  networkError,
+  error,
 }

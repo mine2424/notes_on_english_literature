@@ -18,6 +18,7 @@ dependencies:
 
   # Flutter/Dart official packages
   async:
+  uuid: ^3.0.4
   intl: ^0.17.0
   pub_semver: ^2.0.0
   package_info: ^2.0.0

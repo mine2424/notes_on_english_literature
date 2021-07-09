@@ -19,9 +19,10 @@ class AppNotifier extends StateNotifier<AppState> {
     state = state.copyWith(themeMode: mode);
   }
 
-  Future<T?>? push<T extends Object?>(Widget newRoute) {
+  Future<T?>? push<T extends Object?>(Widget newRoute, [bool? isfullDialog]) {
     return navigatorKey.currentState?.push(
       MaterialPageRoute(
+        fullscreenDialog: isfullDialog ?? false,
         builder: (context) {
           return newRoute;
         },

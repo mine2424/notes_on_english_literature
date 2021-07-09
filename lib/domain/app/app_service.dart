@@ -62,9 +62,11 @@ class AppService {
     }
 
     _targetVersion = remoteConfig.getString(canUpdateIfBefore);
+
     _status = remoteConfig.getBool(isUpdateRequired)
         ? AppUpdateAvailability.required
         : AppUpdateAvailability.available;
+
     _maintenanceStatus = remoteConfig.getBool(isUnderMaintenance)
         ? AppUnderMaintenance.underMaintenance
         : AppUnderMaintenance.available;

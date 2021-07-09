@@ -8,6 +8,11 @@ import 'package:notes_on_english_literature/pages/notes/note_list/note_list_noti
 
 /// Logic / StateNotifier
 final noteListNotifierProvider =
-    StateNotifierProvider<NoteListNotifier, NoteList>((ref) {
-  return NoteListNotifier(notesRepository: ref.watch(notesRepositoryProvider));
-});
+    StateNotifierProvider<NoteListNotifier, NoteList>(
+  (ref) {
+    return NoteListNotifier(
+      notesRepository: ref.watch(notesRepositoryProvider),
+      userService: ref.watch(userServiceProvider),
+    );
+  },
+);

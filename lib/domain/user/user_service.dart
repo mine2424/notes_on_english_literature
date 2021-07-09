@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:async/async.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notes_on_english_literature/common/types/status.dart';
@@ -7,30 +9,23 @@ class UserService {
 
   String get currentUid => _auth.currentUser!.uid;
 
-  Future<Result<AuthStatus>> listenAuthStatus() async {
-    AuthStatus? authStatus = AuthStatus.none;
+  Future<AuthStatus> listenAuthStatus() async {
+    final currentUser = _auth.currentUser;
 
     try {
-      _auth.authStateChanges().listen((event) {
-        if (event == null) {
-          authStatus = AuthStatus.none;
-          return;
-        }
+      if (currentUser?.uid == null) {
+        return AuthStatus.none;
+      }
 
-        if (event.isAnonymous) {
-          authStatus = AuthStatus.anonymous;
-          return;
-        } else {
-          authStatus = AuthStatus.somethingLogin;
-          return;
-        }
-      });
+      if (currentUser!.isAnonymous) {
+        return AuthStatus.anonymous;
+      } else {
+        return AuthStatus.somethingLogin;
+      }
     } on Exception catch (e) {
       print(e);
-      return Result.error(e);
+      return AuthStatus.error;
     }
-
-    return Result.value(authStatus!);
   }
 
   Future<Result<String>> signInAnonymously() async {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/pages/notes/note/create_sentence_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note/sentence_page.dart';
@@ -28,12 +31,9 @@ class NotePage extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).push<void>(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const SentencePage(),
-                ),
-              );
+              context
+                  .read(appNotifierProvider.notifier)
+                  .push(SentencePage(sentence));
             },
             child: ListTile(
               title: Text(sentence.naturalSentence),
@@ -46,12 +46,9 @@ class NotePage extends StatelessWidget {
         iconData: Icons.add,
         label: 'Add Sentence',
         onPressed: () {
-          Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (_) => const CreateSentencePage(),
-            ),
-          );
+          context
+              .read(appNotifierProvider.notifier)
+              .push(CreateSentencePage(note), true);
         },
       ),
     );

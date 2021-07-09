@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-@immutable
 class AppState {
   /// field
 

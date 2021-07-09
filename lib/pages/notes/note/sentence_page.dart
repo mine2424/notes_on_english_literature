@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:notes_on_english_literature/pages/notes/book/struction_card.dart';
+import 'package:notes_on_english_literature/common/helpers/structured_sentence.dart';
+import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
+import 'package:notes_on_english_literature/common/theme.dart';
 
 class SentencePage extends StatelessWidget {
-  const SentencePage();
+  const SentencePage(this.sentence);
+
+  final Sentence sentence;
 
   @override
   Widget build(BuildContext context) {
+    const testSentence =
+        '//[Rapidly build modern websites //(without ever leaving your HTML.)//]//';
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -19,7 +25,16 @@ class SentencePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 16),
-              child: const StructionCard().show(context),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: StructuredSentence(
+                    isHighlight: true,
+                    highlightTextStyles: AppTheme.highlightTextStyles(context),
+                    sentence: sentence.structedSentence,
+                  ),
+                ),
+              ),
             ),
             Divider(color: Colors.grey[700]),
             Padding(
@@ -27,14 +42,11 @@ class SentencePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '文法メモ',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Text('文法メモ', style: Theme.of(context).textTheme.bodyText1),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Text(
-                      'タワーレコードが3月21日（日）に満を持して発売するコンピレーションCD『CITY POP Voyage-STANDARD BEST』のテーマは“時を超えて、国を超えて、いま世界を魅了するジャパニーズ・シティ・ポップ”。いま海外で人気沸騰中の「真夜中のドア」や、シティ・ポップ・ブームの火付け役となった「プラスティック・ラヴ」などの定番曲を新旧アーティストによるカバーで収録している。さらに、YouTube動画再生数250万回以上と世界規模でリバイバルヒットさせたインドネシアのカバーモンスターRainych（レイニッチ）「真夜中のドア / STAY WITH ME」を世界初CD化。カバー・アートは、大滝詠一『A LONG VACATION』のジャケットでおなじみの永井博のイラストを使用している',
+                      sentence.grammerMemo,
                       overflow: TextOverflow.clip,
                     ),
                   ),
@@ -47,14 +59,11 @@ class SentencePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '対訳',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Text('対訳', style: Theme.of(context).textTheme.bodyText1),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Text(
-                      'タワーレコードが3月21日（日）に満を持して発売するコンピレーションCD『CITY POP Voyage-STANDARD BEST』のテーマは“時を超えて、国を超えて、いま世界を魅了するジャパニーズ・シティ・ポップ”。いま海外で人気沸騰中の「真夜中のドア」や、シティ・ポップ・ブームの火付け役となった「プラスティック・ラヴ」などの定番曲を新旧アーティストによるカバーで収録している。さらに、YouTube動画再生数250万回以上と世界規模でリバイバルヒットさせたインドネシアのカバーモンスターRainych（レイニッチ）「真夜中のドア / STAY WITH ME」を世界初CD化。カバー・アートは、大滝詠一『A LONG VACATION』のジャケットでおなじみの永井博のイラストを使用している',
+                      sentence.transration,
                       overflow: TextOverflow.clip,
                     ),
                   ),

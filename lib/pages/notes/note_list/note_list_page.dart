@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notes_on_english_literature/di_container.dart';
 
 import 'package:notes_on_english_literature/pages/notes/note/note_page.dart';
 import 'package:notes_on_english_literature/pages/notes/note_list/note_list_provider.dart';
@@ -24,11 +25,6 @@ class NoteListPage extends HookWidget {
     final noteListNotifier = context.read(noteListNotifierProvider.notifier);
     final noteList = useProvider(noteListNotifierProvider).noteList;
 
-    useEffect(() {
-      noteListNotifier.fetchNoteListForLocalDB();
-      return;
-    }, const []);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -44,11 +40,9 @@ class NoteListPage extends HookWidget {
               padding: const EdgeInsets.only(top: 8),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push<void>(
-                    MaterialPageRoute(
-                      builder: (_) => NotePage(noteList[index]),
-                    ),
-                  );
+                  context
+                      .read(appNotifierProvider.notifier)
+                      .push(NotePage(noteList[index]));
                 },
                 onLongPress: () {
                   EditBookDialog(

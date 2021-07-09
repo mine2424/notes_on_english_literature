@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:notes_on_english_literature/common/helpers/structured_sentence.dart';
+import 'package:notes_on_english_literature/domain/notes/models/note.dart';
+import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
+import 'package:notes_on_english_literature/domain/user/models/user.dart';
+import 'package:notes_on_english_literature/pages/app/set_notifier.dart';
+import 'package:notes_on_english_literature/common/theme.dart';
+import 'package:notes_on_english_literature/pages/notes/note/note_page_provider.dart';
 import 'package:notes_on_english_literature/widgets/button/neumorphism_button.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
 
 class CreateSentencePage extends HookWidget {
-  const CreateSentencePage();
+  const CreateSentencePage(this.note);
+
+  final Note note;
 
   @override
   Widget build(BuildContext context) {
+    final onChangedText = useProvider(setNotifier);
+
     final sentenceController =
         useTextEditingController.fromValue(TextEditingValue.empty);
     final grammerMemoController =
@@ -15,19 +29,37 @@ class CreateSentencePage extends HookWidget {
     final transrationController =
         useTextEditingController.fromValue(TextEditingValue.empty);
 
+    final naturalSentence = StructuredSentence(
+      isHighlight: false,
+      highlightTextStyles: AppTheme.highlightTextStyles(context),
+      sentence: onChangedText,
+    ).generateNormalSentence(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Note'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_outlined),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
       ),
       body: ListView(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 16),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StructuredSentence(
+                  isHighlight: true,
+                  highlightTextStyles: AppTheme.highlightTextStyles(context),
+                  sentence: onChangedText,
+                ),
+              ),
+            ),
+          ),
           AccentForm(
             label: 'sentence',
             controller: sentenceController,
+            onChanged: (value) {
+              return context.read(setNotifier.notifier).change(value);
+            },
             textLines: 4,
           ),
           AccentForm(
@@ -45,7 +77,22 @@ class CreateSentencePage extends HookWidget {
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
             child: NeumorphismButton(
               text: 'create',
-              onTapLogic: () {},
+              onTapLogic: () {
+                final sentence = Sentence(
+                  id: note.sentenceList.length,
+                  naturalSentence: naturalSentence,
+                  structedSentence: sentenceController.text,
+                  transration: transrationController.text,
+                  grammerMemo: grammerMemoController.text,
+                  author: const User(),
+                );
+
+                context
+                    .read(notePageNotifierProvider.notifier)
+                    .addSentenceForLocalDB(note, sentence);
+
+                Navigator.of(context).pop();
+              },
             ).show(context),
           ),
         ],

@@ -4,12 +4,14 @@ class AccentForm extends StatelessWidget {
   const AccentForm({
     required this.label,
     required this.controller,
+    this.onChanged,
     this.textLines = 1,
   });
 
   final String label;
   final int? textLines;
   final TextEditingController controller;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class AccentForm extends StatelessWidget {
               maxLines: textLines,
               cursorColor: Theme.of(context).accentColor,
               controller: controller,
+              onChanged: onChanged,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   gapPadding: 16,

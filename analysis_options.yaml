@@ -30,7 +30,7 @@ linter:
     # - avoid_double_and_int_checks # only useful when targeting JS runtime
     # - avoid_dynamic_calls # not yet tested
     - avoid_empty_else
-    - avoid_equals_and_hash_code_on_mutable_classes
+    # - avoid_equals_and_hash_code_on_mutable_classes
     # - avoid_escaping_inner_quotes # not yet tested
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
@@ -153,8 +153,8 @@ linter:
     - sized_box_for_whitespace
     - slash_for_doc_comments
     # - sort_child_properties_last # not yet tested
-    - sort_constructors_first
-#    - sort_pub_dependencies # prevents separating pinned transitive dependencies
+    # - sort_constructors_first
+    # - sort_pub_dependencies 
     - sort_unnamed_constructors_first
     - test_types_in_equals
     - throw_in_finally

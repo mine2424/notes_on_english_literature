@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/common/types/status.dart';
+
 import 'package:notes_on_english_literature/domain/user/user_service.dart';
 import 'package:notes_on_english_literature/pages/app/states/user_state.dart';
 
@@ -10,15 +11,16 @@ class UserNotifier extends StateNotifier<UserState> {
 
   final UserService userSeivice;
 
-  Future<AuthStatus> listenAuthStatus() async {
-    final result = await userSeivice.listenAuthStatus();
+  Future<void> listenAuthStatus() async {
+    final authStatus = await userSeivice.listenAuthStatus();
 
-    if (result.isError) {
-      // TODO: errorの判別考える
-      return AuthStatus.networkError;
+    if (authStatus == AuthStatus.error) {
+      return;
     }
 
-    return result.asValue!.value;
+    state = state.copyWith(authStatus: authStatus);
+
+    return;
   }
 
   Future<bool> signInAnonymously() async {

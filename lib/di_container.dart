@@ -32,6 +32,5 @@ final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
 );
 
 /// Repository
-final notesRepositoryProvider = Provider<NotesRepository>(
-  (_) => NotesRepository(),
-);
+final notesRepositoryProvider =
+    Provider<NotesRepository>((_) => NotesRepository());

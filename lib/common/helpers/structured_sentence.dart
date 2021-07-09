@@ -4,9 +4,12 @@ class StructuredSentence extends StatelessWidget {
   StructuredSentence({
     required this.highlightTextStyles,
     required this.sentence,
+    required this.isHighlight,
     this.normalTextstyle,
     this.overflow = TextOverflow.clip,
   });
+
+  final bool isHighlight;
 
   final String sentence;
 
@@ -18,8 +21,13 @@ class StructuredSentence extends StatelessWidget {
 
   final children = <TextSpan>[];
 
+  String generateNormalSentence(BuildContext context) {
+    final result = build(context);
+    return result.text.toPlainText();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  RichText build(BuildContext context) {
     // 取得した最後の正規表現の最後のindex
     var regIndex = 0;
 
@@ -72,9 +80,11 @@ class StructuredSentence extends StatelessWidget {
         _addNormalTextStyle(allStringText.substring(0, roopCount));
 
         // 正規表現の最初のindexと+3分までがhighlight styleとなる。
-        _addHighlightTextStyle(
-          allStringText.substring(roopCount, roopCount + 3),
-        );
+        if (isHighlight) {
+          _addHighlightTextStyle(
+            allStringText.substring(roopCount, roopCount + 3),
+          );
+        }
 
         // 正規表現の最後のindexを代入
         regIndex = roopCount + 3;
@@ -91,7 +101,11 @@ class StructuredSentence extends StatelessWidget {
       _addNormalTextStyle(allStringText.substring(regIndex, roopCount));
 
       // 正規表現分
-      _addHighlightTextStyle(allStringText.substring(roopCount, roopCount + 3));
+      if (isHighlight) {
+        _addHighlightTextStyle(
+          allStringText.substring(roopCount, roopCount + 3),
+        );
+      }
 
       regIndex = roopCount + 3;
 

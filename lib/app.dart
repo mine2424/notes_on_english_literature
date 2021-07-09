@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/common/types/status.dart';
 import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/pages/initial_page.dart';
-import 'package:notes_on_english_literature/pages/common/theme.dart';
-import 'package:notes_on_english_literature/pages/onBoarding/onBoarding_page.dart';
+import 'package:notes_on_english_literature/common/theme.dart';
+import 'package:notes_on_english_literature/pages/onBoarding/on_boarding_page.dart';
 
 class App extends HookWidget {
   const App();
@@ -33,14 +33,13 @@ class Config extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthStatus? authStatus;
-
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      authStatus =
-          await context.read(userNotifierProvider.notifier).listenAuthStatus();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await context.read(userNotifierProvider.notifier).listenAuthStatus();
     });
 
-    return (AuthStatus.none == authStatus)
+    final authStatus = useProvider(userNotifierProvider).authStatus;
+
+    return (authStatus == AuthStatus.none)
         ? const OnBoardingPage()
         : const InitialPage();
   }
