@@ -2,31 +2,31 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:objectbox/objectbox.dart';
-
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 
-@Entity()
 class NoteList {
-  List<Note> noteList;
-  String imagePath;
-  int id;
-
+  final List<Note> noteList;
+  final String imagePath;
+  final String noteId;
+  final String uid;
   NoteList({
     this.noteList = const <Note>[],
     this.imagePath = '',
-    this.id = 0,
+    this.noteId = '',
+    this.uid = '',
   });
 
   NoteList copyWith({
     List<Note>? noteList,
     String? imagePath,
-    int? id,
+    String? noteId,
+    String? uid,
   }) {
     return NoteList(
       noteList: noteList ?? this.noteList,
       imagePath: imagePath ?? this.imagePath,
-      id: id ?? this.id,
+      noteId: noteId ?? this.noteId,
+      uid: uid ?? this.uid,
     );
   }
 
@@ -34,17 +34,18 @@ class NoteList {
     return <String, dynamic>{
       'noteList': noteList.map((x) => x.toMap()).toList(),
       'imagePath': imagePath,
-      'id': id,
+      'noteId': noteId,
+      'uid': uid,
     };
   }
 
   factory NoteList.fromMap(Map<String, dynamic> map) {
     return NoteList(
-      noteList: List<Note>.from((map['noteList'] as List<Map<String, dynamic>>)
-          .map((x) => Note.fromMap(x))
-          .toList()),
+      noteList: List<Note>.from(map['noteList']
+          ?.map((Map<String, dynamic> x) => Note.fromMap(x)) as List<Note>),
       imagePath: map['imagePath'] as String,
-      id: map['id'] as int,
+      noteId: map['noteId'] as String,
+      uid: map['uid'] as String,
     );
   }
 
@@ -54,8 +55,9 @@ class NoteList {
       NoteList.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'NoteList(noteList: $noteList, imagePath: $imagePath, id: $id)';
+  String toString() {
+    return 'NoteList(noteList: $noteList, imagePath: $imagePath, noteId: $noteId, uid: $uid)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -66,9 +68,15 @@ class NoteList {
     return other is NoteList &&
         listEquals(other.noteList, noteList) &&
         other.imagePath == imagePath &&
-        other.id == id;
+        other.noteId == noteId &&
+        other.uid == uid;
   }
 
   @override
-  int get hashCode => noteList.hashCode ^ imagePath.hashCode ^ id.hashCode;
+  int get hashCode {
+    return noteList.hashCode ^
+        imagePath.hashCode ^
+        noteId.hashCode ^
+        uid.hashCode;
+  }
 }

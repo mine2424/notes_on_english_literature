@@ -14,7 +14,6 @@ class NoteListNotifier extends StateNotifier<NoteList> {
     required this.notesRepository,
     required this.userService,
   }) : super(NoteList(noteList: const <Note>[])) {
-    notesRepository.initialized();
     // fetchNoteListForLocalDB();
   }
 
@@ -25,7 +24,6 @@ class NoteListNotifier extends StateNotifier<NoteList> {
 
   @override
   void dispose() {
-    notesRepository.dispose();
     super.dispose();
   }
 
@@ -39,23 +37,35 @@ class NoteListNotifier extends StateNotifier<NoteList> {
   }
 
   Future<void> addUpdateNoteListForLocalDB(Note note) async {
-    // TODO: storageに送信
-    final uuid = const Uuid().v4();
+    final noteId = const Uuid().v4();
+
+    state = state.copyWith(
+      noteList: [...state.noteList, note],
+      uid: uid,
+      noteId: noteId,
+      imagePath: '',
+    );
+
+    if (state.imagePath == '') {
+      notesRepository.addNoteListForDB(uid, noteId, state);
+      fetchNoteListForDB();
+
+      return;
+    }
 
     final result = await notesRepository.addNoteImageForStorage(
-      'users/$uid/myNoteLists',
+      'users/$uid/myNoteLists/$noteId',
       File(state.imagePath),
     );
 
     if (result.isError) {
+      print(result.asError!.error);
       return;
     }
 
-    state = state.copyWith(
-      noteList: [...state.noteList, note],
-      imagePath: result.asValue!.value,
-    );
-    notesRepository.addNoteListForDB(uid, uuid, state);
+    state = state.copyWith(imagePath: result.asValue!.value);
+
+    notesRepository.addNoteListForDB(uid, noteId, state);
     fetchNoteListForDB();
   }
 

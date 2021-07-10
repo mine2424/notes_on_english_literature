@@ -37,7 +37,7 @@ class EditBookDialog extends DialogBase<void> {
             message: '本当にこの本を削除しますか？',
             confirmText: '削除する',
             onTapLogic: () {
-              noteListNotifier.deleteNoteListForLocalDB(selectedNote.id);
+              // noteListNotifier.deleteNoteListForLocalDB(selectedNote.id);
               Navigator.of(context).pop();
             },
           ).show(context);
