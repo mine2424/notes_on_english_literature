@@ -11,8 +11,8 @@ import 'package:notes_on_english_literature/widgets/dialog/dialog_base.dart';
 import 'package:notes_on_english_literature/widgets/form/accent_form.dart';
 import 'package:notes_on_english_literature/widgets/image/book_image.dart';
 
-class AddBookDialog extends DialogBase<void> {
-  const AddBookDialog({required this.controller, required this.selectingImage});
+class AddNoteDialog extends DialogBase<void> {
+  const AddNoteDialog({required this.controller, required this.selectingImage});
 
   final TextEditingController controller;
   final VoidCallback selectingImage;
@@ -45,7 +45,7 @@ class AddBookDialog extends DialogBase<void> {
       padding: const EdgeInsets.all(16),
       child: Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
+          final imagePath = watch(noteListNotifierProvider).imagePath;
 
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -69,7 +69,7 @@ class AddBookDialog extends DialogBase<void> {
                   width: 240,
                   child: BookImage(
                     title: controller.text,
-                    image: File(imagePath),
+                    image: imagePath,
                   ),
                 ),
             ],

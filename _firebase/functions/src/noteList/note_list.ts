@@ -18,9 +18,10 @@ export const createNoteList = functions.firestore.document(
     `private/users/users_v1/${doc.uid}/myNoteLists/readOnly/v1/${doc.noteId}`
     ).set({
     'uid': doc.uid,
+    'title': doc.title,
     'noteId': doc.noteId,
-    'imagePath': doc.imagePath,
-    'noteList': doc.noteList,
+    'imageUrl': doc.imageUrl,
+    'sentenceList': doc.sentenceList,
   },
   {merge: true}
   );
@@ -42,9 +43,10 @@ export const updateNoteList = functions.firestore.document(
     `private/users/users_v1/${doc.uid}/myNoteLists/readOnly/v1/${doc.noteId}`
     ).set({
     'uid': doc.uid,
+    'title': doc.title,
     'noteId': doc.noteId,
-    'imagePath': doc.imagePath,
-    'noteList': doc.noteList,
+    'imageUrl': doc.imageUrl,
+    'sentenceList': doc.sentenceList,
   },
   {merge: true}
   );

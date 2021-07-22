@@ -45,7 +45,7 @@ class EditBookDialog extends DialogBase<void> {
       ).show(context),
       Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
+          final imagePath = watch(noteListNotifierProvider).imagePath;
           return RadiusButton(
             text: '編集する',
             textStyle: Theme.of(context).textTheme.bodyText2!,
@@ -75,7 +75,7 @@ class EditBookDialog extends DialogBase<void> {
       padding: const EdgeInsets.all(16),
       child: Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
+          final imagePath = watch(noteListNotifierProvider).imagePath;
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -100,9 +100,8 @@ class EditBookDialog extends DialogBase<void> {
                     title: (controller.text.isEmpty)
                         ? selectedNote.title
                         : controller.text,
-                    image: (imagePath.isEmpty)
-                        ? File(selectedNote.imageUrl)
-                        : File(imagePath),
+                    image:
+                        (imagePath.isEmpty) ? selectedNote.imageUrl : imagePath,
                   ),
                 ),
             ],

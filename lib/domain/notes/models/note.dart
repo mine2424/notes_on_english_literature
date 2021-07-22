@@ -49,14 +49,11 @@ class Note {
 
   factory Note.fromMap(Map<String, dynamic> map) {
     return Note(
-      title: map['title'] as String,
-      noteId: map['noteId'] as String,
-      uid: map['uid'] as String,
-      imageUrl: map['imageUrl'] as String,
-      sentenceList: List<Sentence>.from(map['sentenceList']?.map(
-        (Map<String, dynamic> x) => Sentence.fromMap(x),
-      ) as List<Sentence>)
-          .toList(),
+      title: map['title'].toString(),
+      noteId: map['noteId'].toString(),
+      uid: map['uid'].toString(),
+      imageUrl: map['imageUrl'].toString(),
+      sentenceList: map['sentenceList'].cast<Sentence>() as List<Sentence>,
     );
   }
 

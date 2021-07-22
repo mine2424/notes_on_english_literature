@@ -56,7 +56,7 @@ class NoteListPage extends HookWidget {
                 },
                 child: BookImage(
                   title: noteList[index].title,
-                  image: File(noteList[index].imageUrl),
+                  image: noteList[index].imageUrl,
                 ),
               ),
             );
@@ -67,7 +67,7 @@ class NoteListPage extends HookWidget {
         iconData: Icons.add,
         label: 'Add Note',
         onPressed: () {
-          AddBookDialog(
+          AddNoteDialog(
             controller: bookNameController,
             selectingImage: () {
               noteListNotifier.selectedImageFromGallary(

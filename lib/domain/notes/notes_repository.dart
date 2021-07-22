@@ -60,9 +60,7 @@ class NotesRepository {
 
     for (final doc in snapshot.docs) {
       final docData = doc.data()! as Map<String, dynamic>;
-
       data.add(Note.fromMap(docData));
-      print(docData);
     }
 
     return Result.value(data);

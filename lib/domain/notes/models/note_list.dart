@@ -6,16 +6,20 @@ import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 
 class NoteList {
   final List<Note> noteList;
+  final String imagePath;
 
   NoteList({
     this.noteList = const <Note>[],
+    this.imagePath = '',
   });
 
   NoteList copyWith({
     List<Note>? noteList,
+    String? imagePath,
   }) {
     return NoteList(
       noteList: noteList ?? this.noteList,
+      imagePath: imagePath ?? this.imagePath,
     );
   }
 
