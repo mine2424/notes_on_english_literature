@@ -27,22 +27,6 @@ class NotesRepository {
     return Result.value(await snapshot.ref.getDownloadURL());
   }
 
-  Future<Result<Note>> addNoteListForDB(
-    Note note,
-  ) async {
-    final doc = _db.doc(
-      'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}',
-    );
-
-    try {
-      doc.set(note.toMap(), SetOptions(merge: true));
-    } on Exception catch (e) {
-      return Result.error(e);
-    }
-
-    return Result.value(note);
-  }
-
   Future<Result<List<Note>>> fetchNoteListForDB(String uid) async {
     late QuerySnapshot snapshot;
 
@@ -66,9 +50,21 @@ class NotesRepository {
     return Result.value(data);
   }
 
-  Future<Result<void>> updateNoteListForDB(
-    Note note,
-  ) async {
+  Future<Result<Note>> addNoteListForDB(Note note) async {
+    final doc = _db.doc(
+      'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}',
+    );
+
+    try {
+      doc.set(note.toMap(), SetOptions(merge: true));
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+
+    return Result.value(note);
+  }
+
+  Future<Result<void>> updateNoteListForDB(Note note) async {
     final doc = _db.doc(
       'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}/',
     );
@@ -82,10 +78,7 @@ class NotesRepository {
     return Result.value('updated');
   }
 
-  Future<Result<void>> deleteNoteListForDB(
-    String uid,
-    String noteId,
-  ) async {
+  Future<Result<void>> deleteNoteListForDB(String uid, String noteId) async {
     final doc = _db.doc(
       'private/users/users_v1/$uid/myNoteLists/writeOnly/v1/$noteId/',
     );

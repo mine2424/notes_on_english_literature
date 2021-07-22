@@ -59,7 +59,32 @@ class NoteListNotifier extends StateNotifier<NoteList> {
       return;
     }
 
-    // TODO: 今はローカルの画像を取得しているので、storageから取得するようにする
+    note.imageUrl = result.asValue!.value;
+
+    notesRepository.addNoteListForDB(note);
+
+    state = state.copyWith(noteList: [...state.noteList, note]);
+  }
+
+  Future<void> updateNoteList(Note note) async {
+    // TODO: 調整する
+    if (state.imagePath == '') {
+      notesRepository.addNoteListForDB(note);
+
+      state = state.copyWith(noteList: [...state.noteList, note]);
+      return;
+    }
+
+    final result = await notesRepository.addNoteImageForStorage(
+      'users/${note.uid}/myNoteLists/${note.noteId}',
+      File(state.imagePath),
+    );
+
+    if (result.isError) {
+      print(result.asError!.error);
+      return;
+    }
+
     note.imageUrl = result.asValue!.value;
 
     notesRepository.addNoteListForDB(note);
