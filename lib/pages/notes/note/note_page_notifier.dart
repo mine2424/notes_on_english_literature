@@ -3,13 +3,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 import 'package:notes_on_english_literature/domain/notes/notes_repository.dart';
+import 'package:notes_on_english_literature/domain/user/user_service.dart';
 
 class NotePageNotifier extends StateNotifier<Note> {
   NotePageNotifier({
     required this.notesRepository,
-  }) : super(Note()) {}
+  }) : super(Note());
 
-  late NotesRepository notesRepository;
+  late final NotesRepository notesRepository;
+  late final UserService userService;
 
   @override
   void dispose() {
@@ -21,7 +23,7 @@ class NotePageNotifier extends StateNotifier<Note> {
 
     print('addSentence: $note');
 
-    fetchSentenceForLocalDB(note.id);
+    fetchSentenceForLocalDB(note.noteId);
   }
 
   void updateSentenceForLocalDB(Note note, Sentence sentence) {
@@ -35,14 +37,14 @@ class NotePageNotifier extends StateNotifier<Note> {
       }
     }
 
-    fetchSentenceForLocalDB(note.id);
+    fetchSentenceForLocalDB(note.noteId);
   }
 
-  Future<void> fetchSentenceForLocalDB(int id) async {
+  Future<void> fetchSentenceForLocalDB(String noteId) async {
     // noteのsentencelistをどう取得（更新する）か考える
   }
 
-  void deleteSentenceForLocalDB(int id) {
-    fetchSentenceForLocalDB(id);
+  void deleteSentenceForLocalDB(String noteId) {
+    fetchSentenceForLocalDB(noteId);
   }
 }

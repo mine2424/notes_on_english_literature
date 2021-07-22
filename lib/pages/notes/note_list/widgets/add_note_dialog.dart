@@ -31,12 +31,8 @@ class AddBookDialog extends DialogBase<void> {
         onTapLogic: () {
           context
               .read(noteListNotifierProvider.notifier)
-              .addUpdateNoteListForLocalDB(
-                Note(
-                  title: controller.text,
-                  imageUrl: context.read(noteListNotifierProvider).imagePath,
-                ),
-              );
+              .addUpdateNoteList(Note(title: controller.text));
+          controller.clear();
           Navigator.of(context).pop();
         },
       ).show(context),
@@ -49,9 +45,7 @@ class AddBookDialog extends DialogBase<void> {
       padding: const EdgeInsets.all(16),
       child: Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider).imagePath;
-
-          print(imagePath);
+          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
 
           return Column(
             mainAxisSize: MainAxisSize.min,

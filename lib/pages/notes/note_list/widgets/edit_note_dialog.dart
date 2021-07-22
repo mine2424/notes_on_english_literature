@@ -37,7 +37,7 @@ class EditBookDialog extends DialogBase<void> {
             message: '本当にこの本を削除しますか？',
             confirmText: '削除する',
             onTapLogic: () {
-              // noteListNotifier.deleteNoteListForLocalDB(selectedNote.id);
+              // TODO: noteListNotifier.deleteNoteListForLocalDB(selectedNote.id);
               Navigator.of(context).pop();
             },
           ).show(context);
@@ -45,20 +45,22 @@ class EditBookDialog extends DialogBase<void> {
       ).show(context),
       Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider).imagePath;
+          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
           return RadiusButton(
             text: '編集する',
             textStyle: Theme.of(context).textTheme.bodyText2!,
             onTapLogic: () {
-              noteListNotifier.addUpdateNoteListForLocalDB(Note(
-                id: selectedNote.id,
-                title: (controller.text.isEmpty)
-                    ? selectedNote.title
-                    : controller.text,
-                sentenceList: selectedNote.sentenceList,
-                imageUrl:
-                    (imagePath.isEmpty) ? selectedNote.imageUrl : imagePath,
-              ));
+              noteListNotifier.addUpdateNoteList(
+                Note(
+                  noteId: selectedNote.noteId,
+                  title: (controller.text.isEmpty)
+                      ? selectedNote.title
+                      : controller.text,
+                  sentenceList: selectedNote.sentenceList,
+                  imageUrl:
+                      (imagePath.isEmpty) ? selectedNote.imageUrl : imagePath,
+                ),
+              );
               Navigator.of(context).pop();
             },
           ).show(context);
@@ -73,7 +75,7 @@ class EditBookDialog extends DialogBase<void> {
       padding: const EdgeInsets.all(16),
       child: Consumer(
         builder: (context, watch, child) {
-          final imagePath = watch(noteListNotifierProvider).imagePath;
+          final imagePath = watch(noteListNotifierProvider.notifier).imagePath;
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [

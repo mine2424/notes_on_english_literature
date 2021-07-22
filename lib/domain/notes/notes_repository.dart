@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
-import 'package:notes_on_english_literature/domain/notes/models/note_list.dart';
 
 class NotesRepository {
   NotesRepository();
@@ -28,28 +27,24 @@ class NotesRepository {
     return Result.value(await snapshot.ref.getDownloadURL());
   }
 
-  Future<Result<NoteList>> addNoteListForDB(
-    String uid,
-    String noteId,
-    NoteList noteList,
+  Future<Result<Note>> addNoteListForDB(
+    Note note,
   ) async {
     final doc = _db.doc(
-      'private/users/users_v1/$uid/myNoteLists/writeOnly/v1/$noteId',
+      'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}',
     );
 
     try {
-      doc.set(noteList.toMap(), SetOptions(merge: true));
+      doc.set(note.toMap(), SetOptions(merge: true));
     } on Exception catch (e) {
       return Result.error(e);
     }
 
-    return Result.value(noteList);
+    return Result.value(note);
   }
 
   Future<Result<List<Note>>> fetchNoteListForDB(String uid) async {
     late QuerySnapshot snapshot;
-
-    //TODO: read onlyから取れるようにすること
 
     final col = _db.collection(
       'private/users/users_v1/$uid/myNoteLists/readOnly/v1',
@@ -63,27 +58,25 @@ class NotesRepository {
 
     final data = <Note>[];
 
-    print(snapshot.docs);
-    for (var i = 0; i < snapshot.docs.length; i++) {
-      // data.add(Note.fromJson(snapshot.docs[i] as String));
-      print(i);
-      print(snapshot.docs[i]);
+    for (final doc in snapshot.docs) {
+      final docData = doc.data()! as Map<String, dynamic>;
+
+      data.add(Note.fromMap(docData));
+      print(docData);
     }
 
     return Result.value(data);
   }
 
   Future<Result<void>> updateNoteListForDB(
-    String uid,
-    String noteId,
-    NoteList noteList,
+    Note note,
   ) async {
     final doc = _db.doc(
-      'private/users/users_v1/$uid/myNoteLists/writeOnly/v1/$noteId/',
+      'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}/',
     );
 
     try {
-      doc.set(noteList.toMap(), SetOptions(merge: true));
+      doc.set(note.toMap(), SetOptions(merge: true));
     } on Exception catch (e) {
       return Result.error(e);
     }

@@ -6,14 +6,14 @@ import 'package:notes_on_english_literature/domain/user/models/user.dart';
 
 @Entity()
 class Sentence {
-  String naturalSentence;
-  String structedSentence;
-  String transration;
-  String grammerMemo;
-  User author;
-  int watchCount;
+  final String naturalSentence;
+  final String structedSentence;
+  final String transration;
+  final String grammerMemo;
+  final User author;
+  final int watchCount;
 
-  int id;
+  final int id;
 
   Sentence({
     this.naturalSentence = '',
@@ -31,7 +31,6 @@ class Sentence {
     String? transration,
     String? grammerMemo,
     User? author,
-    DateTime? updateAt,
     int? watchCount,
     int? id,
   }) {
@@ -60,10 +59,10 @@ class Sentence {
 
   factory Sentence.fromMap(Map<String, dynamic> map) {
     return Sentence(
-      naturalSentence: map['naturalSentence'] as String,
-      structedSentence: map['structedSentence'] as String,
-      transration: map['transration'] as String,
-      grammerMemo: map['grammerMemo'] as String,
+      naturalSentence: map['naturalSentence'].toString(),
+      structedSentence: map['structedSentence'].toString(),
+      transration: map['transration'].toString(),
+      grammerMemo: map['grammerMemo'].toString(),
       author: User.fromMap(map['author'] as Map<String, dynamic>),
       watchCount: map['watchCount'] as int,
       id: map['id'] as int,
@@ -74,11 +73,6 @@ class Sentence {
 
   factory Sentence.fromJson(String source) =>
       Sentence.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'Sentence(naturalSentence: $naturalSentence, structedSentence: $structedSentence, transration: $transration, grammerMemo: $grammerMemo, author: $author, watchCount: $watchCount, id: $id)';
-  }
 
   @override
   bool operator ==(Object other) {

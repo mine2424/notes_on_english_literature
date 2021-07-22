@@ -13,12 +13,14 @@ class NoteListNotifier extends StateNotifier<NoteList> {
   NoteListNotifier({
     required this.notesRepository,
     required this.userService,
+    this.imagePath = '',
   }) : super(NoteList(noteList: const <Note>[])) {
-    // fetchNoteListForLocalDB();
+    fetchNoteList();
   }
 
   late NotesRepository notesRepository;
   late UserService userService;
+  String imagePath;
 
   String get uid => userService.currentUid;
 
@@ -33,29 +35,22 @@ class NoteListNotifier extends StateNotifier<NoteList> {
       imageQuality: 60,
     );
 
-    state = state.copyWith(imagePath: pickedFile!.path);
+    imagePath = pickedFile!.path;
   }
 
-  Future<void> addUpdateNoteListForLocalDB(Note note) async {
+  Future<void> addUpdateNoteList(Note note) async {
     final noteId = const Uuid().v4();
 
-    state = state.copyWith(
-      noteList: [...state.noteList, note],
-      uid: uid,
-      noteId: noteId,
-      imagePath: '',
-    );
+    if (imagePath == '') {
+      notesRepository.addNoteListForDB(note);
 
-    if (state.imagePath == '') {
-      notesRepository.addNoteListForDB(uid, noteId, state);
-      fetchNoteListForDB();
-
+      state = state.copyWith(noteList: [...state.noteList, note]);
       return;
     }
 
     final result = await notesRepository.addNoteImageForStorage(
       'users/$uid/myNoteLists/$noteId',
-      File(state.imagePath),
+      File(imagePath),
     );
 
     if (result.isError) {
@@ -63,13 +58,18 @@ class NoteListNotifier extends StateNotifier<NoteList> {
       return;
     }
 
-    state = state.copyWith(imagePath: result.asValue!.value);
+    notesRepository.addNoteListForDB(note);
 
-    notesRepository.addNoteListForDB(uid, noteId, state);
-    fetchNoteListForDB();
+    note.imageUrl = imagePath;
+
+    state = state.copyWith(noteList: [...state.noteList, note]);
   }
 
-  Future<void> fetchNoteListForDB() async {
+  Future<void> deleteNoteList(String noteId, Note note) async {
+    await notesRepository.deleteNoteListForDB(uid, noteId);
+  }
+
+  Future<void> fetchNoteList() async {
     final result = await notesRepository.fetchNoteListForDB(uid);
 
     if (result.isError) {
