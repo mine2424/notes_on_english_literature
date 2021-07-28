@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:objectbox/objectbox.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
-@Entity()
 class Note {
   String title;
   String noteId;
   String uid;
   String imageUrl;
+  DateTime? createAt = DateTime.now();
   List<Sentence> sentenceList;
 
   Note({
@@ -48,20 +47,24 @@ class Note {
   }
 
   factory Note.fromMap(Map<String, dynamic> map) {
+    final sentenceList = map['sentenceList'] as List<dynamic>;
     return Note(
       title: map['title'].toString(),
       noteId: map['noteId'].toString(),
       uid: map['uid'].toString(),
       imageUrl: map['imageUrl'].toString(),
-      sentenceList: map['sentenceList'].cast<Sentence>() as List<Sentence>,
+      sentenceList: List<Sentence>.from(
+        sentenceList.map<Sentence>(
+          (e) => Sentence.fromMap(e as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Note.fromJson(String source) => Note.fromMap(
-        json.decode(source) as Map<String, dynamic>,
-      );
+  factory Note.fromJson(String source) =>
+      Note.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

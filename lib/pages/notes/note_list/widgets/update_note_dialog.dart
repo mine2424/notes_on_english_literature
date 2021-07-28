@@ -10,8 +10,8 @@ import 'package:notes_on_english_literature/widgets/dialog/dialog_base.dart';
 import 'package:notes_on_english_literature/widgets/image/book_image.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
 
-class EditBookDialog extends DialogBase<void> {
-  const EditBookDialog({
+class UpdateBookDialog extends DialogBase<void> {
+  const UpdateBookDialog({
     required this.controller,
     required this.selectingImage,
     required this.selectedNote,
@@ -35,7 +35,7 @@ class EditBookDialog extends DialogBase<void> {
             message: '本当にこの本を削除しますか？',
             confirmText: '削除する',
             onTapLogic: () {
-              // TODO: noteListNotifier.deleteNoteListForLocalDB(selectedNote.id);
+              noteListNotifier.deleteNoteList(selectedNote);
               Navigator.of(context).pop();
             },
           ).show(context);
@@ -45,10 +45,10 @@ class EditBookDialog extends DialogBase<void> {
         builder: (context, watch, child) {
           final imagePath = watch(noteListNotifierProvider).imagePath;
           return RadiusButton(
-            text: '編集する',
+            text: '編集',
             textStyle: Theme.of(context).textTheme.bodyText2!,
             onTapLogic: () {
-              noteListNotifier.addUpdateNoteList(
+              noteListNotifier.updateNoteList(
                 Note(
                   noteId: selectedNote.noteId,
                   title: (controller.text.isEmpty)

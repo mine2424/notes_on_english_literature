@@ -11,9 +11,8 @@ class Sentence {
   final String transration;
   final String grammerMemo;
   final User author;
-  final int watchCount;
-
-  final int id;
+  final String sentenceId;
+  int watchCount;
 
   Sentence({
     this.naturalSentence = '',
@@ -22,7 +21,7 @@ class Sentence {
     this.grammerMemo = '',
     this.author = const User(),
     this.watchCount = 0,
-    this.id = 0,
+    this.sentenceId = '',
   });
 
   Sentence copyWith({
@@ -32,7 +31,7 @@ class Sentence {
     String? grammerMemo,
     User? author,
     int? watchCount,
-    int? id,
+    String? sentenceId,
   }) {
     return Sentence(
       naturalSentence: naturalSentence ?? this.naturalSentence,
@@ -41,7 +40,7 @@ class Sentence {
       grammerMemo: grammerMemo ?? this.grammerMemo,
       author: author ?? this.author,
       watchCount: watchCount ?? this.watchCount,
-      id: id ?? this.id,
+      sentenceId: sentenceId ?? this.sentenceId,
     );
   }
 
@@ -53,7 +52,7 @@ class Sentence {
       'grammerMemo': grammerMemo,
       'author': author.toMap(),
       'watchCount': watchCount,
-      'id': id,
+      'sentenceId': sentenceId,
     };
   }
 
@@ -65,7 +64,7 @@ class Sentence {
       grammerMemo: map['grammerMemo'].toString(),
       author: User.fromMap(map['author'] as Map<String, dynamic>),
       watchCount: map['watchCount'] as int,
-      id: map['id'] as int,
+      sentenceId: map['sentenceId'].toString(),
     );
   }
 
@@ -87,7 +86,7 @@ class Sentence {
         other.grammerMemo == grammerMemo &&
         other.author == author &&
         other.watchCount == watchCount &&
-        other.id == id;
+        other.sentenceId == sentenceId;
   }
 
   @override
@@ -98,6 +97,6 @@ class Sentence {
         grammerMemo.hashCode ^
         author.hashCode ^
         watchCount.hashCode ^
-        id.hashCode;
+        sentenceId.hashCode;
   }
 }

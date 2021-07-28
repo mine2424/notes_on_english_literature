@@ -1,14 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class BookImage extends StatelessWidget {
-  const BookImage({required this.title, required this.image});
+  const BookImage({
+    required this.title,
+    required this.image,
+    this.isFile = false,
+  });
 
   final String title;
   final String image;
+  final bool isFile;
 
   @override
   Widget build(BuildContext context) {
-    print(image);
     return ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
       child: Stack(
@@ -20,26 +26,7 @@ class BookImage extends StatelessWidget {
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 500),
               opacity: 0.5,
-              child: (image.isEmpty)
-                  ? Image.network(
-                      'https://cdn-ak.f.st-hatena.com/images/fotolife/k/kidsmoo1221/20190511/20190511234947.jpg',
-                      fit: BoxFit.cover,
-                      height: 120,
-                    )
-                  : Image.network(
-                      image,
-                      fit: BoxFit.cover,
-                      height: 120,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Text(
-                            'can\'t read image 😢',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                        );
-                      },
-                    ),
+              child: _imageWidget(image),
             ),
           ),
           Center(
@@ -54,5 +41,30 @@ class BookImage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _imageWidget(String image) {
+    return (image.isEmpty)
+        ? Image.network(
+            'https://cdn-ak.f.st-hatena.com/images/fotolife/k/kidsmoo1221/20190511/20190511234947.jpg',
+            fit: BoxFit.cover,
+            height: 120,
+          )
+        : (isFile == true)
+            ? Image.file(File(image))
+            : Image.network(
+                image,
+                fit: BoxFit.cover,
+                height: 120,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Text(
+                      'can\'t read image 😢',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  );
+                },
+              );
   }
 }

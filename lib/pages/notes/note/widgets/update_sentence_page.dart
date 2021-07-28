@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/common/helpers/structured_sentence.dart';
+import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 import 'package:notes_on_english_literature/domain/user/models/user.dart';
@@ -12,22 +13,26 @@ import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/pages/notes/note/note_page_provider.dart';
 import 'package:notes_on_english_literature/widgets/button/neumorphism_button.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
+import 'package:uuid/uuid.dart';
 
-class CreateSentencePage extends HookWidget {
-  const CreateSentencePage(this.note);
+class UpdateSentencePage extends HookWidget {
+  const UpdateSentencePage(this.note, this.sentence);
 
   final Note note;
+  final Sentence sentence;
 
   @override
   Widget build(BuildContext context) {
     final onChangedText = useProvider(setNotifier);
 
     final sentenceController =
-        useTextEditingController.fromValue(TextEditingValue.empty);
+        useTextEditingController(text: sentence.structedSentence);
+
     final grammerMemoController =
-        useTextEditingController.fromValue(TextEditingValue.empty);
+        useTextEditingController(text: sentence.grammerMemo);
+
     final transrationController =
-        useTextEditingController.fromValue(TextEditingValue.empty);
+        useTextEditingController(text: sentence.transration);
 
     final naturalSentence = StructuredSentence(
       isHighlight: false,
@@ -37,7 +42,7 @@ class CreateSentencePage extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Note'),
+        title: const Text('Update Sentence'),
       ),
       body: ListView(
         children: [
@@ -76,20 +81,22 @@ class CreateSentencePage extends HookWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
             child: NeumorphismButton(
-              text: 'create',
+              text: 'update',
               onTapLogic: () {
-                final sentence = Sentence(
-                  id: note.sentenceList.length,
+                final user = context.read(userNotifierProvider).user;
+                final newSentence = Sentence(
+                  sentenceId: sentence.sentenceId,
                   naturalSentence: naturalSentence,
                   structedSentence: sentenceController.text,
                   transration: transrationController.text,
                   grammerMemo: grammerMemoController.text,
-                  author: const User(),
+                  watchCount: 0,
+                  author: user,
                 );
 
                 context
                     .read(notePageNotifierProvider.notifier)
-                    .addSentenceForLocalDB(note, sentence);
+                    .updateSentenceForDB(note, newSentence);
 
                 Navigator.of(context).pop();
               },

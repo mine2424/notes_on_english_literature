@@ -27,7 +27,9 @@ class NoteListNotifier extends StateNotifier<NoteList> {
     super.dispose();
   }
 
-  Future<void> selectedImageFromGallary(String title) async {
+  void clearImagePath() => state = state.copyWith(imagePath: '');
+
+  Future<void> selectedImageFromGallary() async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       imageQuality: 60,
@@ -36,14 +38,14 @@ class NoteListNotifier extends StateNotifier<NoteList> {
     state = state.copyWith(imagePath: pickedFile!.path);
   }
 
-  Future<void> addUpdateNoteList(Note note) async {
+  Future<void> addNoteList(Note note) async {
     final noteId = const Uuid().v4();
 
     note.noteId = noteId;
     note.uid = userService.currentUid;
 
     if (state.imagePath == '') {
-      notesRepository.addNoteListForDB(note);
+      notesRepository.addUpdateNoteListForDB(note);
 
       state = state.copyWith(noteList: [...state.noteList, note]);
       return;
@@ -61,39 +63,45 @@ class NoteListNotifier extends StateNotifier<NoteList> {
 
     note.imageUrl = result.asValue!.value;
 
-    notesRepository.addNoteListForDB(note);
+    notesRepository.addUpdateNoteListForDB(note);
 
     state = state.copyWith(noteList: [...state.noteList, note]);
+    clearImagePath();
   }
 
   Future<void> updateNoteList(Note note) async {
-    // TODO: 調整する
-    if (state.imagePath == '') {
-      notesRepository.addNoteListForDB(note);
+    note.uid = userService.currentUid;
 
-      state = state.copyWith(noteList: [...state.noteList, note]);
-      return;
+    if (state.imagePath != '') {
+      final result = await notesRepository.addNoteImageForStorage(
+        'users/${note.uid}/myNoteLists/${note.noteId}',
+        File(state.imagePath),
+      );
+
+      if (result.isError) {
+        return;
+      }
+
+      note.imageUrl = result.asValue!.value;
     }
 
-    final result = await notesRepository.addNoteImageForStorage(
-      'users/${note.uid}/myNoteLists/${note.noteId}',
-      File(state.imagePath),
-    );
+    final updatingNote =
+        state.noteList.where((element) => element.noteId == note.noteId).first;
+    final noteIndex = state.noteList.indexOf(updatingNote);
 
-    if (result.isError) {
-      print(result.asError!.error);
-      return;
-    }
+    state.noteList
+      ..remove(updatingNote)
+      ..insert(noteIndex, note);
 
-    note.imageUrl = result.asValue!.value;
+    state = state.copyWith(noteList: state.noteList);
 
-    notesRepository.addNoteListForDB(note);
+    notesRepository.addUpdateNoteListForDB(note);
 
-    state = state.copyWith(noteList: [...state.noteList, note]);
+    clearImagePath();
   }
 
-  Future<void> deleteNoteList(String noteId, Note note) async {
-    await notesRepository.deleteNoteListForDB(uid, noteId);
+  Future<void> deleteNoteList(Note note) async {
+    await notesRepository.deleteNoteListForDB(note.uid, note.noteId);
   }
 
   Future<void> fetchNoteList() async {

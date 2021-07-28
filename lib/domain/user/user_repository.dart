@@ -8,7 +8,7 @@ import 'package:notes_on_english_literature/domain/user/models/user.dart';
 class UserRepository {
   final _db = FirebaseFirestore.instance;
 
-  Future<Result<void>> addUser(User user) async {
+  Future<Result<String>> addUser(User user) async {
     final doc = _db.doc('private/users/user_v1/${user.uid}/writeOnly/v1');
 
     try {
@@ -17,7 +17,7 @@ class UserRepository {
       return Result.error(e);
     }
 
-    return Result.value('added');
+    return Result.value(doc.id);
   }
 
   Future<Result<User>> fetchUser(User user) async {
@@ -33,7 +33,7 @@ class UserRepository {
     return Result.value(User.fromJson(snapshot as String));
   }
 
-  Future<Result<void>> deleteUser(String uid) async {
+  Future<Result<String>> deleteUser(String uid) async {
     final doc = _db.doc('private/users/user_v1/$uid/');
 
     try {
@@ -42,11 +42,11 @@ class UserRepository {
       return Result.error(e);
     }
 
-    return Result.value('deleted');
+    return Result.value(doc.id);
   }
 
   // TODO: ユーザー編集（ユーザー情報）（課金ユーザー）（ログイン状態email,apple...）
-  Future<Result<void>> editUser(User user) async {
+  Future<Result<String>> editUser(User user) async {
     final doc = _db.doc('private/users/user_v1/${user.uid}/');
 
     try {
@@ -55,6 +55,6 @@ class UserRepository {
       return Result.error(e);
     }
 
-    return Result.value('edited');
+    return Result.value(doc.id);
   }
 }

@@ -7,7 +7,11 @@ import 'package:notes_on_english_literature/pages/notes/note/note_page_notifier.
 /// Dependency Injection
 
 /// Logic / StateNotifier
-final notePageNotifierProvider =
-    StateNotifierProvider<NotePageNotifier, Note>((ref) {
-  return NotePageNotifier(notesRepository: ref.watch(notesRepositoryProvider));
-});
+final notePageNotifierProvider = StateNotifierProvider<NotePageNotifier, Note>(
+  (ref) {
+    return NotePageNotifier(
+      notesRepository: ref.watch(notesRepositoryProvider),
+      userService: ref.watch(userServiceProvider),
+    );
+  },
+);

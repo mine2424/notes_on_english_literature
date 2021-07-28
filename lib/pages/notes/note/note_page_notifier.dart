@@ -8,6 +8,7 @@ import 'package:notes_on_english_literature/domain/user/user_service.dart';
 class NotePageNotifier extends StateNotifier<Note> {
   NotePageNotifier({
     required this.notesRepository,
+    required this.userService,
   }) : super(Note());
 
   late final NotesRepository notesRepository;
@@ -18,33 +19,59 @@ class NotePageNotifier extends StateNotifier<Note> {
     super.dispose();
   }
 
-  void addSentenceForLocalDB(Note note, Sentence sentence) {
-    note.sentenceList = [...note.sentenceList, sentence];
+  Future<void> addSentenceForDB(Note note, Sentence sentence) async {
+    final sentenceList = [...note.sentenceList];
+    sentence.watchCount = 0;
 
-    print('addSentence: $note');
+    sentenceList.add(sentence);
 
-    fetchSentenceForLocalDB(note.noteId);
+    note.sentenceList = sentenceList;
+
+    await notesRepository.addUpdateNoteListForDB(note);
+    await fetchSentenceForDB(note.noteId);
   }
 
-  void updateSentenceForLocalDB(Note note, Sentence sentence) {
-    // 変更の該当sentenceを探す
-    // 該当のsentenceに代入
+  Future<void> updateSentenceForDB(Note note, Sentence sentence) async {
     final sentenceList = [...note.sentenceList];
 
+    // 変更の該当sentenceを探す、該当のsentenceに代入
     for (var i = 0; i < note.sentenceList.length; i++) {
-      if (note.sentenceList[i].id == sentence.id) {
+      if (note.sentenceList[i].sentenceId == sentence.sentenceId) {
         sentenceList[i] = sentence;
       }
     }
 
-    fetchSentenceForLocalDB(note.noteId);
+    note.sentenceList = sentenceList;
+
+    print(note.sentenceList.map((e) => e.grammerMemo));
+
+    await notesRepository.addUpdateNoteListForDB(note);
+
+    await fetchSentenceForDB(note.noteId);
   }
 
-  Future<void> fetchSentenceForLocalDB(String noteId) async {
-    // noteのsentencelistをどう取得（更新する）か考える
+  Future<void> fetchSentenceForDB(String noteId) async {
+    final uid = userService.currentUid;
+
+    final result = await notesRepository.fetchSentenceForDB(uid, noteId);
+
+    if (result.isError) {
+      return;
+    }
+
+    state = state.copyWith(sentenceList: result.asValue!.value);
   }
 
-  void deleteSentenceForLocalDB(String noteId) {
-    fetchSentenceForLocalDB(noteId);
+  Future<void> deleteSentenceForDB(Note note, Sentence sentence) async {
+    // 変更の該当sentenceを探す、該当のsentenceを削除
+    for (var i = 0; i < note.sentenceList.length; i++) {
+      if (note.sentenceList[i].sentenceId == sentence.sentenceId) {
+        note.sentenceList.removeAt(i);
+      }
+    }
+
+    await notesRepository.addUpdateNoteListForDB(note);
+
+    await fetchSentenceForDB(note.noteId);
   }
 }

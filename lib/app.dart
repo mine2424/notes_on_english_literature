@@ -9,6 +9,7 @@ import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/pages/initial_page.dart';
 import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/pages/onBoarding/on_boarding_page.dart';
+import 'package:notes_on_english_literature/widgets/custom_indicator.dart';
 
 class App extends HookWidget {
   const App();
@@ -39,8 +40,10 @@ class Config extends HookWidget {
 
     final authStatus = useProvider(userNotifierProvider).authStatus;
 
-    return (authStatus == AuthStatus.none)
-        ? const OnBoardingPage()
-        : const InitialPage();
+    return (authStatus == AuthStatus.waiting)
+        ? const CustomIndicator()
+        : (authStatus == AuthStatus.none)
+            ? const OnBoardingPage()
+            : const InitialPage();
   }
 }

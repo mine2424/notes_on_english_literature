@@ -5,6 +5,6 @@ enum AuthStatus {
   google,
   apple,
   none,
-
+  waiting,
   error,
 }

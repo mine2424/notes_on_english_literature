@@ -7,7 +7,7 @@ import 'package:notes_on_english_literature/pages/app/states/user_state.dart';
 class UserNotifier extends StateNotifier<UserState> {
   UserNotifier({
     required this.userSeivice,
-  }) : super(const UserState());
+  }) : super(UserState());
 
   final UserService userSeivice;
 

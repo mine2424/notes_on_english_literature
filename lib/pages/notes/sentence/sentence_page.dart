@@ -5,29 +5,32 @@ import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 import 'package:notes_on_english_literature/common/theme.dart';
 
 class SentencePage extends StatelessWidget {
-  const SentencePage(this.sentence);
+  const SentencePage({required this.sentence, required this.editLogic});
 
   final Sentence sentence;
+  final VoidCallback editLogic;
 
   @override
   Widget build(BuildContext context) {
-    const testSentence =
-        '//[Rapidly build modern websites //(without ever leaving your HTML.)//]//';
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close_outlined),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(icon: const Icon(Icons.edit), onPressed: editLogic)
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 16),
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: StructuredSentence(
                     isHighlight: true,
                     highlightTextStyles: AppTheme.highlightTextStyles(context),
@@ -40,15 +43,13 @@ class SentencePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text('文法メモ', style: Theme.of(context).textTheme.bodyText1),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      sentence.grammerMemo,
-                      overflow: TextOverflow.clip,
-                    ),
+                  Text(
+                    sentence.grammerMemo,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),
@@ -57,15 +58,13 @@ class SentencePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text('対訳', style: Theme.of(context).textTheme.bodyText1),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      sentence.transration,
-                      overflow: TextOverflow.clip,
-                    ),
+                  Text(
+                    sentence.transration,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),

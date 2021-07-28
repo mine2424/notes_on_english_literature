@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
+import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
 class NotesRepository {
   NotesRepository();
@@ -12,7 +13,36 @@ class NotesRepository {
   final _db = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
 
-  // ============== firestore CRUD functions area ===============
+  // ============== firestore CRUD of Sentence functions area ===============
+
+  Future<Result<List<Sentence>>> fetchSentenceForDB(
+    String uid,
+    String noteId,
+  ) async {
+    late DocumentSnapshot snapshot;
+
+    final doc = _db.doc(
+      'private/users/users_v1/$uid/myNoteLists/readOnly/v1/$noteId',
+    );
+
+    try {
+      snapshot = await doc.get();
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+
+    final list = <Sentence>[];
+    final data = snapshot.data()! as Map<String, dynamic>;
+    final sentenceList = data['sentenceList'] as List;
+
+    for (var i = 0; i < sentenceList.length; i++) {
+      list.add(Sentence.fromMap(sentenceList[i] as Map<String, dynamic>));
+    }
+
+    return Result.value(list);
+  }
+
+  // ============== firestore CRUD of Note functions area ===============
 
   Future<Result<String>> addNoteImageForStorage(String path, File file) async {
     late final TaskSnapshot snapshot;
@@ -50,7 +80,7 @@ class NotesRepository {
     return Result.value(data);
   }
 
-  Future<Result<Note>> addNoteListForDB(Note note) async {
+  Future<Result<Note>> addUpdateNoteListForDB(Note note) async {
     final doc = _db.doc(
       'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}',
     );
@@ -64,21 +94,7 @@ class NotesRepository {
     return Result.value(note);
   }
 
-  Future<Result<void>> updateNoteListForDB(Note note) async {
-    final doc = _db.doc(
-      'private/users/users_v1/${note.uid}/myNoteLists/writeOnly/v1/${note.noteId}/',
-    );
-
-    try {
-      doc.set(note.toMap(), SetOptions(merge: true));
-    } on Exception catch (e) {
-      return Result.error(e);
-    }
-
-    return Result.value('updated');
-  }
-
-  Future<Result<void>> deleteNoteListForDB(String uid, String noteId) async {
+  Future<Result<String>> deleteNoteListForDB(String uid, String noteId) async {
     final doc = _db.doc(
       'private/users/users_v1/$uid/myNoteLists/writeOnly/v1/$noteId/',
     );
@@ -89,7 +105,7 @@ class NotesRepository {
       return Result.error(e);
     }
 
-    return Result.value('deleted');
+    return Result.value(doc.id);
   }
 }
 

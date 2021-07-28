@@ -10,10 +10,15 @@ import 'package:notes_on_english_literature/widgets/form/accent_form.dart';
 import 'package:notes_on_english_literature/widgets/image/book_image.dart';
 
 class AddNoteDialog extends DialogBase<void> {
-  const AddNoteDialog({required this.controller, required this.selectingImage});
+  const AddNoteDialog({
+    required this.controller,
+    required this.selectingImage,
+    required this.cancelLogic,
+  });
 
   final TextEditingController controller;
   final VoidCallback selectingImage;
+  final VoidCallback cancelLogic;
 
   @override
   List<Widget> dialogActions(BuildContext context) {
@@ -21,7 +26,9 @@ class AddNoteDialog extends DialogBase<void> {
       RadiusButton(
         text: 'キャンセル',
         textStyle: Theme.of(context).textTheme.bodyText2!,
-        onTapLogic: () => Navigator.of(context).pop(),
+        onTapLogic: () {
+          Navigator.of(context).pop();
+        },
       ).show(context),
       RadiusButton(
         text: '保存',
@@ -29,7 +36,7 @@ class AddNoteDialog extends DialogBase<void> {
         onTapLogic: () {
           context
               .read(noteListNotifierProvider.notifier)
-              .addUpdateNoteList(Note(title: controller.text));
+              .addNoteList(Note(title: controller.text));
           controller.clear();
           Navigator.of(context).pop();
         },
@@ -68,6 +75,7 @@ class AddNoteDialog extends DialogBase<void> {
                   child: BookImage(
                     title: controller.text,
                     image: imagePath,
+                    isFile: true,
                   ),
                 ),
             ],
