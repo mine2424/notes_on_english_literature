@@ -10,6 +10,7 @@ import 'package:notes_on_english_literature/pages/notes/note/widgets/update_sent
 import 'package:notes_on_english_literature/pages/notes/sentence/sentence_page.dart';
 import 'package:notes_on_english_literature/widgets/button/floating_custom_button.dart';
 import 'package:notes_on_english_literature/widgets/button/info_button.dart';
+import 'package:notes_on_english_literature/widgets/dialog/comfirm_dialog.dart';
 
 class NotePage extends StatelessWidget {
   const NotePage(this.note);
@@ -42,9 +43,16 @@ class NotePage extends StatelessWidget {
                           .push(UpdateSentencePage(note, sentence), true)));
             },
             onLongPress: () async {
-              await context
-                  .read(notePageNotifierProvider.notifier)
-                  .deleteSentenceForDB(note, sentence);
+              ConfirmDialog(
+                title: '削除',
+                message: '本当にこの文章を削除しますか？',
+                confirmText: 'はい',
+                onTapLogic: () async {
+                  await context
+                      .read(notePageNotifierProvider.notifier)
+                      .deleteSentenceForDB(note, sentence);
+                },
+              ).show(context);
             },
             child: ListTile(
               title: Text(sentence.naturalSentence),

@@ -43,8 +43,6 @@ class NotePageNotifier extends StateNotifier<Note> {
 
     note.sentenceList = sentenceList;
 
-    print(note.sentenceList.map((e) => e.grammerMemo));
-
     await notesRepository.addUpdateNoteListForDB(note);
 
     await fetchSentenceForDB(note.noteId);

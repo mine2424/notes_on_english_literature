@@ -7,13 +7,11 @@ import 'package:notes_on_english_literature/common/helpers/structured_sentence.d
 import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
-import 'package:notes_on_english_literature/domain/user/models/user.dart';
 import 'package:notes_on_english_literature/pages/app/set_notifier.dart';
 import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/pages/notes/note/note_page_provider.dart';
 import 'package:notes_on_english_literature/widgets/button/neumorphism_button.dart';
 import 'package:notes_on_english_literature/widgets/widgets.dart';
-import 'package:uuid/uuid.dart';
 
 class UpdateSentencePage extends HookWidget {
   const UpdateSentencePage(this.note, this.sentence);
@@ -37,7 +35,9 @@ class UpdateSentencePage extends HookWidget {
     final naturalSentence = StructuredSentence(
       isHighlight: false,
       highlightTextStyles: AppTheme.highlightTextStyles(context),
-      sentence: onChangedText,
+      sentence: (onChangedText.isEmpty || onChangedText == 'Hello World')
+          ? sentence.naturalSentence
+          : onChangedText,
     ).generateNormalSentence(context);
 
     return Scaffold(
