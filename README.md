@@ -11,6 +11,9 @@ Basically,It's use the latest Flutter version of stable channel.
 - Flutter 2.0.x
 - Dart 2.12.x
 
+## architecture
+this app use DDD but it change little simplification structure
+
 ## state management
 
 It's use State_Notfier, Riverpod and Flutter_Hook.
