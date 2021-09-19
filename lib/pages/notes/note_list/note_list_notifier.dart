@@ -7,17 +7,17 @@ import 'package:uuid/uuid.dart';
 import 'package:notes_on_english_literature/domain/user/user_service.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note_list.dart';
-import 'package:notes_on_english_literature/domain/notes/notes_repository.dart';
+import 'package:notes_on_english_literature/domain/notes/note_repository.dart';
 
-class NoteListNotifier extends StateNotifier<NoteList> {
+class NoteListNotifier extends StateNotifier<NoteListState> {
   NoteListNotifier({
-    required this.notesRepository,
+    required this.noteRepository,
     required this.userService,
-  }) : super(NoteList(noteList: const <Note>[])) {
+  }) : super(NoteListState(noteList: const <Note>[])) {
     fetchNoteList();
   }
 
-  late NotesRepository notesRepository;
+  late NoteRepository noteRepository;
   late UserService userService;
 
   String get uid => userService.currentUid;
@@ -38,42 +38,42 @@ class NoteListNotifier extends StateNotifier<NoteList> {
     state = state.copyWith(imagePath: pickedFile!.path);
   }
 
-  Future<void> addNoteList(Note note) async {
+  Future<void> addNoteList(String title) async {
     final noteId = const Uuid().v4();
+    var imageUrl = '';
 
-    note.noteId = noteId;
-    note.uid = userService.currentUid;
+    if (state.imagePath.isNotEmpty) {
+      final result = await noteRepository.addNoteImageForStorage(
+        'users/$uid/myNoteLists/$noteId',
+        File(state.imagePath),
+      );
 
-    if (state.imagePath == '') {
-      notesRepository.addUpdateNoteListForDB(note);
+      if (result.isError) {
+        print(result.asError!.error);
+        return;
+      }
 
-      state = state.copyWith(noteList: [...state.noteList, note]);
-      return;
+      imageUrl = result.asValue!.value;
     }
 
-    final result = await notesRepository.addNoteImageForStorage(
-      'users/$uid/myNoteLists/$noteId',
-      File(state.imagePath),
+    final note = Note(
+      noteId: noteId,
+      uid: userService.currentUid,
+      title: title,
+      imageUrl: imageUrl,
+      isOrigin: true,
     );
 
-    if (result.isError) {
-      print(result.asError!.error);
-      return;
-    }
-
-    note.imageUrl = result.asValue!.value;
-
-    notesRepository.addUpdateNoteListForDB(note);
-
+    await noteRepository.addUpdateNoteListForDB(note);
     state = state.copyWith(noteList: [...state.noteList, note]);
     clearImagePath();
   }
 
   Future<void> updateNoteList(Note note) async {
-    note.uid = userService.currentUid;
+    var imageUrl = '';
 
-    if (state.imagePath != '') {
-      final result = await notesRepository.addNoteImageForStorage(
+    if (state.imagePath.isNotEmpty) {
+      final result = await noteRepository.addNoteImageForStorage(
         'users/${note.uid}/myNoteLists/${note.noteId}',
         File(state.imagePath),
       );
@@ -82,30 +82,40 @@ class NoteListNotifier extends StateNotifier<NoteList> {
         return;
       }
 
-      note.imageUrl = result.asValue!.value;
+      imageUrl = result.asValue!.value;
     }
 
-    final updatingNote =
-        state.noteList.where((element) => element.noteId == note.noteId).first;
+    final newNote = Note(
+      title: note.title,
+      uid: note.uid,
+      noteId: note.noteId,
+      imageUrl: imageUrl,
+      sentenceList: note.sentenceList,
+      parentNoteId: note.parentNoteId,
+      isOrigin: note.isOrigin,
+    );
+
+    final updatingNote = state.noteList
+        .where((element) => element.noteId == newNote.noteId)
+        .first;
+
     final noteIndex = state.noteList.indexOf(updatingNote);
 
-    state.noteList
-      ..remove(updatingNote)
-      ..insert(noteIndex, note);
-
-    state = state.copyWith(noteList: state.noteList);
-
-    notesRepository.addUpdateNoteListForDB(note);
-
+    await noteRepository.addUpdateNoteListForDB(newNote);
+    state = state.copyWith(
+      noteList: state.noteList
+        ..remove(updatingNote)
+        ..insert(noteIndex, newNote),
+    );
     clearImagePath();
   }
 
   Future<void> deleteNoteList(Note note) async {
-    await notesRepository.deleteNoteListForDB(note.uid, note.noteId);
+    await noteRepository.deleteNoteListForDB(note.uid, note.noteId);
   }
 
   Future<void> fetchNoteList() async {
-    final result = await notesRepository.fetchNoteListForDB(uid);
+    final result = await noteRepository.fetchNoteListForDB(uid);
 
     if (result.isError) {
       return;

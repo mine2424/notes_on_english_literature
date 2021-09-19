@@ -82,7 +82,7 @@ class UpdateSentencePage extends HookWidget {
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
             child: NeumorphismButton(
               text: 'update',
-              onTapLogic: () {
+              onTapLogic: () async {
                 final user = context.read(userNotifierProvider).user;
                 final newSentence = Sentence(
                   sentenceId: sentence.sentenceId,
@@ -94,7 +94,7 @@ class UpdateSentencePage extends HookWidget {
                   author: user,
                 );
 
-                context
+                await context
                     .read(notePageNotifierProvider.notifier)
                     .updateSentenceForDB(note, newSentence);
 

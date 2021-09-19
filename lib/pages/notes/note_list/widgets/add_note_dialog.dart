@@ -36,7 +36,7 @@ class AddNoteDialog extends DialogBase<void> {
         onTapLogic: () {
           context
               .read(noteListNotifierProvider.notifier)
-              .addNoteList(Note(title: controller.text));
+              .addNoteList(controller.text);
           controller.clear();
           Navigator.of(context).pop();
         },

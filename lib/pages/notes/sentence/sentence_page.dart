@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/common/helpers/structured_sentence.dart';
-import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
+import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/common/theme.dart';
+import 'package:notes_on_english_literature/pages/notes/note/note_page_provider.dart';
+import 'package:notes_on_english_literature/pages/notes/note/widgets/update_sentence_page.dart';
 
-class SentencePage extends StatelessWidget {
-  const SentencePage({required this.sentence, required this.editLogic});
+class SentencePage extends HookWidget {
+  const SentencePage({required this.sentenceIndex});
 
-  final Sentence sentence;
-  final VoidCallback editLogic;
+  final int sentenceIndex;
 
   @override
   Widget build(BuildContext context) {
+    final noteState = useProvider(notePageNotifierProvider);
+    final sentence = noteState.sentenceList[sentenceIndex];
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -19,7 +26,14 @@ class SentencePage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.edit), onPressed: editLogic)
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () async {
+              await context
+                  .read(appNotifierProvider.notifier)
+                  .push(UpdateSentencePage(noteState, sentence), true);
+            },
+          )
         ],
       ),
       body: SingleChildScrollView(

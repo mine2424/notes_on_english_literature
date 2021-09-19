@@ -4,19 +4,24 @@ import 'package:flutter/foundation.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
+@immutable
 class Note {
-  String title;
-  String noteId;
-  String uid;
-  String imageUrl;
-  DateTime? createAt = DateTime.now();
-  List<Sentence> sentenceList;
+  final String title;
+  final String noteId;
+  final String uid;
+  final String imageUrl;
+  final String parentNoteId;
+  final bool isOrigin;
+  final DateTime? createAt = DateTime.now();
+  final List<Sentence> sentenceList;
 
   Note({
     this.title = '',
     this.noteId = '',
     this.uid = '',
     this.imageUrl = '',
+    this.parentNoteId = '',
+    this.isOrigin = true,
     this.sentenceList = const <Sentence>[],
   });
 
@@ -25,6 +30,8 @@ class Note {
     String? noteId,
     String? uid,
     String? imageUrl,
+    String? parentNoteId,
+    bool? isOrigin,
     List<Sentence>? sentenceList,
   }) {
     return Note(
@@ -32,6 +39,8 @@ class Note {
       noteId: noteId ?? this.noteId,
       uid: uid ?? this.uid,
       imageUrl: imageUrl ?? this.imageUrl,
+      parentNoteId: parentNoteId ?? this.parentNoteId,
+      isOrigin: isOrigin ?? this.isOrigin,
       sentenceList: sentenceList ?? this.sentenceList,
     );
   }
@@ -42,6 +51,8 @@ class Note {
       'noteId': noteId,
       'uid': uid,
       'imageUrl': imageUrl,
+      'parentNoteId': parentNoteId,
+      'isOrigin': isOrigin,
       'sentenceList': sentenceList.map((x) => x.toMap()).toList(),
     };
   }
@@ -53,6 +64,8 @@ class Note {
       noteId: map['noteId'].toString(),
       uid: map['uid'].toString(),
       imageUrl: map['imageUrl'].toString(),
+      parentNoteId: map['parentNoteId'].toString(),
+      isOrigin: map['isOrigin'] as bool,
       sentenceList: List<Sentence>.from(
         sentenceList.map<Sentence>(
           (e) => Sentence.fromMap(e as Map<String, dynamic>),

@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
-class NotesRepository {
-  NotesRepository();
+class NoteRepository {
+  NoteRepository();
 
   final _db = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
@@ -40,6 +40,22 @@ class NotesRepository {
     }
 
     return Result.value(list);
+  }
+
+  Future<Result<Note>> fetchNoteForDB(String uid, String noteId) async {
+    late DocumentSnapshot snapshot;
+
+    final doc = _db.doc(
+      'private/users/users_v1/$uid/myNoteLists/readOnly/v1/$noteId',
+    );
+
+    try {
+      snapshot = await doc.get();
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+
+    return Result.value(Note.fromMap(snapshot.data()! as Map<String, dynamic>));
   }
 
   // ============== firestore CRUD of Note functions area ===============

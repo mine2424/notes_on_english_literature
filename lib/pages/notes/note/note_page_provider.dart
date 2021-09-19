@@ -10,7 +10,7 @@ import 'package:notes_on_english_literature/pages/notes/note/note_page_notifier.
 final notePageNotifierProvider = StateNotifierProvider<NotePageNotifier, Note>(
   (ref) {
     return NotePageNotifier(
-      notesRepository: ref.watch(notesRepositoryProvider),
+      notesRepository: ref.watch(noteRepositoryProvider),
       userService: ref.watch(userServiceProvider),
     );
   },

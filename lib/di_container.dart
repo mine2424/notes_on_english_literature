@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/domain/app/app_service.dart';
-import 'package:notes_on_english_literature/domain/notes/notes_repository.dart';
+import 'package:notes_on_english_literature/domain/notes/note_repository.dart';
 import 'package:notes_on_english_literature/pages/app/app_notifier.dart';
 import 'package:notes_on_english_literature/pages/app/states/app_state.dart';
 
@@ -32,5 +32,5 @@ final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
 );
 
 /// Repository
-final notesRepositoryProvider =
-    Provider<NotesRepository>((_) => NotesRepository());
+final noteRepositoryProvider =
+    Provider<NoteRepository>((_) => NoteRepository());

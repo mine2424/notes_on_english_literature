@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/di_container.dart';
-import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/pages/notes/note/note_page_provider.dart';
 import 'package:notes_on_english_literature/pages/notes/note/widgets/create_sentence_page.dart';
-import 'package:notes_on_english_literature/pages/notes/note/widgets/update_sentence_page.dart';
 import 'package:notes_on_english_literature/pages/notes/sentence/sentence_page.dart';
 import 'package:notes_on_english_literature/widgets/button/floating_custom_button.dart';
 import 'package:notes_on_english_literature/widgets/button/info_button.dart';
 import 'package:notes_on_english_literature/widgets/dialog/comfirm_dialog.dart';
 
-class NotePage extends StatelessWidget {
-  const NotePage(this.note);
+class NotePage extends HookWidget {
+  const NotePage({required this.index});
 
-  final Note note;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    final noteState = useProvider(notePageNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,29 +29,28 @@ class NotePage extends StatelessWidget {
         actions: [InfoButton(onPressed: () {})],
       ),
       body: ListView.separated(
-        itemCount: note.sentenceList.length,
+        itemCount: noteState.sentenceList.length,
         separatorBuilder: (context, index) => Divider(color: Colors.grey[700]),
         itemBuilder: (context, index) {
-          final sentence = note.sentenceList[index];
+          final sentence = noteState.sentenceList[index];
 
           return GestureDetector(
             onTap: () async {
-              await context.read(appNotifierProvider.notifier).push(
-                  SentencePage(
-                      sentence: sentence,
-                      editLogic: () => context
-                          .read(appNotifierProvider.notifier)
-                          .push(UpdateSentencePage(note, sentence), true)));
+              // TODO: bookとsentenceの場合で条件分岐させる
+              await context
+                  .read(appNotifierProvider.notifier)
+                  .push(SentencePage(sentenceIndex: index));
             },
             onLongPress: () async {
+              // TODO: bookとsentenceの場合で条件分岐させる
               ConfirmDialog(
                 title: '削除',
-                message: '本当にこの文章を削除しますか？',
                 confirmText: 'はい',
+                message: '本当にこの文章を削除しますか？',
                 onTapLogic: () async {
                   await context
                       .read(notePageNotifierProvider.notifier)
-                      .deleteSentenceForDB(note, sentence);
+                      .deleteSentenceForDB(noteState, sentence);
                 },
               ).show(context);
             },
@@ -63,11 +63,11 @@ class NotePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingCustomButton(
         iconData: Icons.add,
-        label: 'Add Sentence',
+        label: 'Add Sentence or Note',
         onPressed: () async {
           await context
               .read(appNotifierProvider.notifier)
-              .push(CreateSentencePage(note), true);
+              .push(CreateSentencePage(noteState), true);
         },
       ),
     );

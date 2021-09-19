@@ -9,11 +9,11 @@ class MyProfileCard extends CardBase {
     return Column(
       children: [
         Row(
-          children:const [
+          children: const [
             CircleAvatar(
               radius: 40,
               backgroundImage: NetworkImage(
-                'https://flutter.dev/assets/dash/Dashatars-389042bdc0682644666ce0c179964cebeb9f79483330c7ea61543757e10954cc.png',
+                'https://cdn-images-1.medium.com/max/1200/1*ilC2Aqp5sZd1wi0CopD1Hw.png',
               ),
             ),
             SizedBox(width: 16),

@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
-import 'package:notes_on_english_literature/domain/notes/notes_repository.dart';
+import 'package:notes_on_english_literature/domain/notes/note_repository.dart';
 import 'package:notes_on_english_literature/domain/user/user_service.dart';
 
 class NotePageNotifier extends StateNotifier<Note> {
@@ -11,7 +11,7 @@ class NotePageNotifier extends StateNotifier<Note> {
     required this.userService,
   }) : super(Note());
 
-  late final NotesRepository notesRepository;
+  late final NoteRepository notesRepository;
   late final UserService userService;
 
   @override
@@ -25,7 +25,7 @@ class NotePageNotifier extends StateNotifier<Note> {
 
     sentenceList.add(sentence);
 
-    note.sentenceList = sentenceList;
+    state = state.copyWith(sentenceList: sentenceList);
 
     await notesRepository.addUpdateNoteListForDB(note);
     await fetchSentenceForDB(note.noteId);
@@ -41,7 +41,8 @@ class NotePageNotifier extends StateNotifier<Note> {
       }
     }
 
-    note.sentenceList = sentenceList;
+    // note.sentenceList = sentenceList;
+    state = state.copyWith(sentenceList: sentenceList);
 
     await notesRepository.addUpdateNoteListForDB(note);
 
@@ -58,6 +59,18 @@ class NotePageNotifier extends StateNotifier<Note> {
     }
 
     state = state.copyWith(sentenceList: result.asValue!.value);
+  }
+
+  Future<void> fetchNoteForDB(String noteId) async {
+    final uid = userService.currentUid;
+
+    final result = await notesRepository.fetchNoteForDB(uid, noteId);
+
+    if (result.isError) {
+      return;
+    }
+
+    state = result.asValue!.value;
   }
 
   Future<void> deleteSentenceForDB(Note note, Sentence sentence) async {

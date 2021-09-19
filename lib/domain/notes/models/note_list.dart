@@ -4,22 +4,34 @@ import 'package:flutter/foundation.dart';
 
 import 'package:notes_on_english_literature/domain/notes/models/note.dart';
 
-class NoteList {
+class NoteListState {
   final List<Note> noteList;
   final String imagePath;
+  final String title;
+  final String uid;
+  final String noteId;
 
-  NoteList({
+  NoteListState({
     this.noteList = const <Note>[],
     this.imagePath = '',
+    this.noteId = '',
+    this.title = '',
+    this.uid = '',
   });
 
-  NoteList copyWith({
+  NoteListState copyWith({
     List<Note>? noteList,
     String? imagePath,
+    String? title,
+    String? uid,
+    String? noteId,
   }) {
-    return NoteList(
+    return NoteListState(
       noteList: noteList ?? this.noteList,
       imagePath: imagePath ?? this.imagePath,
+      title: title ?? this.title,
+      uid: uid ?? this.uid,
+      noteId: noteId ?? this.noteId,
     );
   }
 
@@ -29,8 +41,8 @@ class NoteList {
     };
   }
 
-  factory NoteList.fromMap(Map<String, dynamic> map) {
-    return NoteList(
+  factory NoteListState.fromMap(Map<String, dynamic> map) {
+    return NoteListState(
       noteList: List<Note>.from(map['noteList']
               ?.map((Map<String, dynamic> x) => Note.fromMap(x)) as List<Note>)
           .toList(),
@@ -39,8 +51,8 @@ class NoteList {
 
   String toJson() => json.encode(toMap());
 
-  factory NoteList.fromJson(String source) =>
-      NoteList.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory NoteListState.fromJson(String source) =>
+      NoteListState.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool operator ==(Object other) {
@@ -48,7 +60,7 @@ class NoteList {
       return true;
     }
 
-    return other is NoteList && listEquals(other.noteList, noteList);
+    return other is NoteListState && listEquals(other.noteList, noteList);
   }
 
   @override
