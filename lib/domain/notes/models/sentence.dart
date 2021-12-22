@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-import 'package:objectbox/objectbox.dart';
-
 import 'package:notes_on_english_literature/domain/user/models/user.dart';
 
-@Entity()
 class Sentence {
   final String naturalSentence;
   final String structedSentence;

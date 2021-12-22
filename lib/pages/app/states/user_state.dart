@@ -11,7 +11,7 @@ class UserState {
   final AuthStatus authStatus;
   final User user;
 
-  UserState({
+  const UserState({
     this.authStatus = AuthStatus.waiting,
     this.user = const User(),
   });

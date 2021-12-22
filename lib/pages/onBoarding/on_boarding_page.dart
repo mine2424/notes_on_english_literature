@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/pages/initial_page.dart';
 import 'package:notes_on_english_literature/widgets/button/radius_button.dart';
@@ -67,6 +66,7 @@ class OnBoardingPage extends HookWidget {
                       .read(appNotifierProvider.notifier)
                       .push(const InitialPage());
                 }
+                // TODO: isLoginがfalseの場合は、ログイン画面に遷移する
               },
               text: '新しく始める',
               textStyle:

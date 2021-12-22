@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:objectbox/objectbox.dart';
 
-@Entity()
 class AppState {
   /// field
 

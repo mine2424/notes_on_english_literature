@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/di_container.dart';
-
+import 'package:notes_on_english_literature/pages/book/note_list/note_list_page.dart';
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
-import 'package:notes_on_english_literature/pages/notes/note_list/note_list_page.dart';
 import 'package:notes_on_english_literature/widgets/button/info_button.dart';
 
 class InitialPage extends StatefulHookWidget {

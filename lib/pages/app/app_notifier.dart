@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:state_notifier/state_notifier.dart';
-
-import 'package:notes_on_english_literature/widgets/button/radius_button.dart';
-import 'package:notes_on_english_literature/widgets/dialog/unclose_dialog.dart';
 import 'package:notes_on_english_literature/domain/app/app_service.dart';
 import 'package:notes_on_english_literature/pages/app/states/app_state.dart';
+import 'package:notes_on_english_literature/widgets/button/radius_button.dart';
+import 'package:notes_on_english_literature/widgets/dialog/unclose_dialog.dart';
+import 'package:state_notifier/state_notifier.dart';
 
 class AppNotifier extends StateNotifier<AppState> {
   AppNotifier({required this.appService}) : super(AppState());

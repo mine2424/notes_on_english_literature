@@ -2,64 +2,64 @@ name: notes_on_english_literature
 
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+    sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
-  
-  flutter_localizations:
-    sdk: flutter
+    flutter:
+        sdk: flutter
 
-  # Flutter/Dart official packages
-  async:
-  uuid: ^3.0.4
-  intl: ^0.17.0
-  pub_semver: ^2.0.0
-  package_info: ^2.0.0
-  path_provider: ^2.0.2
-  image_picker: ^0.7.5+3
-  cupertino_icons: ^1.0.2
+    flutter_localizations:
+        sdk: flutter
 
-  # Firebase packages
-  firebase_core: ^1.1.1
-  cloud_firestore: ^2.1.0
-  firebase_auth: ^1.1.4
-  firebase_storage: ^8.0.6
-  firebase_messaging: ^9.1.4
-  firebase_remote_config: ^0.10.0-dev.4
+    # Flutter/Dart official packages
+    async:
+    uuid: ^3.0.4
+    intl: ^0.17.0
+    pub_semver: ^2.0.0
+    package_info: ^2.0.0
+    path_provider: ^2.0.2
+    image_picker: ^0.7.5+3
+    cupertino_icons: ^1.0.2
 
-  # Google packages
-  google_ml_kit: ^0.2.0
-  google_fonts: ^2.0.0
+    # Firebase packages
+    firebase_core: ^1.6.0
+    cloud_firestore: ^2.5.3
+    firebase_auth: ^3.1.1
+    firebase_storage: ^10.0.3
+    firebase_messaging: ^10.0.7
+    firebase_remote_config: ^0.11.0
 
-  # objectbox packages
-  objectbox: ^0.14.0
-  objectbox_flutter_libs: ^0.14.0
+    # Google packages
+    # google_ml_kit: ^0.7.2
+    google_fonts: ^2.1.0
 
-  # statement packages
-  hooks_riverpod: ^0.14.0+4
-  flutter_hooks: ^0.17.0
-  flutter_state_notifier: ^0.7.0
+    # objectbox packages
+    # objectbox: ^0.14.0
+    # objectbox_flutter_libs: ^0.14.0
 
-  # other packages
-  carousel_slider: ^4.0.0-nullsafety.0
+    # statement packages
+    hooks_riverpod: ^0.14.0+4
+    flutter_hooks: ^0.17.0
+    flutter_state_notifier: ^0.7.0
+
+    # other packages
+    carousel_slider: ^4.0.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+    flutter_test:
+        sdk: flutter
 
-  pedantic_mono:
+    pedantic_mono:
 
-  build_runner: ^2.0.2
-  json_serializable: ^4.1.1
-  objectbox_generator: ^0.14.0
+    build_runner: ^2.0.2
+    json_serializable: ^4.1.1
+    # objectbox_generator: ^0.14.0
 
 flutter:
-  uses-material-design: true
-  generate: true
+    uses-material-design: true
+    generate: true

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/common/types/status.dart';
 import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/pages/initial_page.dart';
-import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/pages/onBoarding/on_boarding_page.dart';
 import 'package:notes_on_english_literature/widgets/custom_indicator.dart';
 

@@ -6,24 +6,26 @@ import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
 @immutable
 class Note {
-  final String title;
-  final String noteId;
-  final String uid;
-  final String imageUrl;
-  final String parentNoteId;
-  final bool isOrigin;
-  final DateTime? createAt = DateTime.now();
-  final List<Sentence> sentenceList;
-
-  Note({
+ const Note({
     this.title = '',
     this.noteId = '',
     this.uid = '',
     this.imageUrl = '',
     this.parentNoteId = '',
     this.isOrigin = true,
+    this.createAt,
     this.sentenceList = const <Sentence>[],
   });
+
+  final String title;
+  final String noteId;
+  final String uid;
+  final String imageUrl;
+  final String parentNoteId;
+  final bool isOrigin;
+  final DateTime? createAt;
+  final List<Sentence> sentenceList;
+
 
   Note copyWith({
     String? title,
@@ -32,6 +34,7 @@ class Note {
     String? imageUrl,
     String? parentNoteId,
     bool? isOrigin,
+    DateTime? createAt,
     List<Sentence>? sentenceList,
   }) {
     return Note(
@@ -41,6 +44,7 @@ class Note {
       imageUrl: imageUrl ?? this.imageUrl,
       parentNoteId: parentNoteId ?? this.parentNoteId,
       isOrigin: isOrigin ?? this.isOrigin,
+      createAt: createAt ?? DateTime.now(),
       sentenceList: sentenceList ?? this.sentenceList,
     );
   }
@@ -80,9 +84,9 @@ class Note {
       Note.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'Note(title: $title, noteId: $noteId, uid: $uid, imageUrl: $imageUrl, sentenceList: $sentenceList)';
-  }
+  String toString() 
+    => 't: $title, n: $noteId, uid: $uid, imU: $imageUrl, sL: $sentenceList';
+  
 
   @override
   bool operator ==(Object other) {

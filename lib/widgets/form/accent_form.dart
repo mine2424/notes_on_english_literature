@@ -29,7 +29,7 @@ class AccentForm extends StatelessWidget {
             ),
             child: TextField(
               maxLines: textLines,
-              cursorColor: Theme.of(context).accentColor,
+              cursorColor: Theme.of(context).colorScheme.secondary,
               controller: controller,
               onChanged: onChanged,
               decoration: const InputDecoration(

@@ -50,8 +50,12 @@ class BookImage extends StatelessWidget {
             fit: BoxFit.cover,
             height: 120,
           )
-        : (isFile == true)
-            ? Image.file(File(image))
+        : (isFile == true || !image.startsWith('https'))
+            ? Image.file(
+                File(image),
+                fit: BoxFit.cover,
+                height: 120,
+              )
             : Image.network(
                 image,
                 fit: BoxFit.cover,

@@ -45,7 +45,7 @@ class UserRepository {
     return Result.value(doc.id);
   }
 
-  // TODO: ユーザー編集（ユーザー情報）（課金ユーザー）（ログイン状態email,apple...）
+  // TODO(mine): ユーザー編集（ユーザー情報）（課金ユーザー）（ログイン状態email,apple...）
   Future<Result<String>> editUser(User user) async {
     final doc = _db.doc('private/users/user_v1/${user.uid}/');
 

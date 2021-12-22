@@ -7,7 +7,7 @@ import 'package:notes_on_english_literature/pages/app/states/user_state.dart';
 class UserNotifier extends StateNotifier<UserState> {
   UserNotifier({
     required this.userSeivice,
-  }) : super(UserState());
+  }) : super(const UserState());
 
   final UserService userSeivice;
 
@@ -27,7 +27,6 @@ class UserNotifier extends StateNotifier<UserState> {
     final result = await userSeivice.signInAnonymously();
 
     if (result.isError) {
-      // TODO: error handling
       print(result.asError!.error);
       return false;
     }
