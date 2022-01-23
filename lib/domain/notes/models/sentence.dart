@@ -9,9 +9,9 @@ class Sentence {
   final String grammerMemo;
   final User author;
   final String sentenceId;
-  int watchCount;
+  final int watchCount;
 
-  Sentence({
+  const Sentence({
     this.naturalSentence = '',
     this.structedSentence = '',
     this.transration = '',

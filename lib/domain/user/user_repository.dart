@@ -9,7 +9,7 @@ class UserRepository {
   final _db = FirebaseFirestore.instance;
 
   Future<Result<String>> addUser(User user) async {
-    final doc = _db.doc('private/users/user_v1/${user.uid}/writeOnly/v1');
+    final doc = _db.doc('private/users/users_v1/${user.uid}/writeOnly/v1');
 
     try {
       doc.set(user.toMap(), SetOptions(merge: true));
@@ -22,7 +22,7 @@ class UserRepository {
 
   Future<Result<User>> fetchUser(User user) async {
     late DocumentSnapshot snapshot;
-    final doc = _db.doc('private/users/user_v1/${user.uid}/readOnly/v1');
+    final doc = _db.doc('private/users/users_v1/${user.uid}/readOnly/v1');
 
     try {
       snapshot = await doc.get();
@@ -34,7 +34,7 @@ class UserRepository {
   }
 
   Future<Result<String>> deleteUser(String uid) async {
-    final doc = _db.doc('private/users/user_v1/$uid/');
+    final doc = _db.doc('private/users/users_v1/$uid/');
 
     try {
       await doc.delete();
@@ -47,7 +47,7 @@ class UserRepository {
 
   // TODO(mine): ユーザー編集（ユーザー情報）（課金ユーザー）（ログイン状態email,apple...）
   Future<Result<String>> editUser(User user) async {
-    final doc = _db.doc('private/users/user_v1/${user.uid}/');
+    final doc = _db.doc('private/users/users_v1/${user.uid}/');
 
     try {
       doc.set(user.toMap(), SetOptions(merge: true));

@@ -85,7 +85,6 @@ class UpdateSentencePage extends HookWidget {
                 final newSentence = Sentence(
                   sentenceId: sentence.sentenceId,
                   naturalSentence: naturalSentence,
-                  //TODO: 構文化した文章を反映できているか確認する。
                   structedSentence: sentenceController.text,
                   transration: transrationController.text,
                   grammerMemo: grammerMemoController.text,
@@ -93,18 +92,11 @@ class UpdateSentencePage extends HookWidget {
                   author: user,
                 );
 
-                print(
-                    'sentence in onTapLogic : ${newSentence.naturalSentence}');
-                print(
-                    'structedSentence in onTapLogic : ${newSentence.structedSentence}');
-
                 await context
                     .read(notePageNotifierProvider.notifier)
                     .updateSentenceForDB(note, newSentence);
 
-                // TODO: pop後に更新したデータを引き継がないといけない？
-                // TODO: あるいはstateで管理できているならそれでok.
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
             ).show(context),
           ),

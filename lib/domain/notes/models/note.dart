@@ -6,7 +6,7 @@ import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 
 @immutable
 class Note {
- const Note({
+  const Note({
     this.title = '',
     this.noteId = '',
     this.uid = '',
@@ -25,7 +25,6 @@ class Note {
   final bool isOrigin;
   final DateTime? createAt;
   final List<Sentence> sentenceList;
-
 
   Note copyWith({
     String? title,
@@ -84,9 +83,8 @@ class Note {
       Note.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() 
-    => 't: $title, n: $noteId, uid: $uid, imU: $imageUrl, sL: $sentenceList';
-  
+  String toString() =>
+      't: $title, n: $noteId, uid: $uid, imU: $imageUrl, sL: $sentenceList';
 
   @override
   bool operator ==(Object other) {

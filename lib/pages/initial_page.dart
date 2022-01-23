@@ -4,10 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/di_container.dart';
 import 'package:notes_on_english_literature/pages/book/note_list/note_list_page.dart';
 import 'package:notes_on_english_literature/pages/home/home_page.dart';
+import 'package:notes_on_english_literature/pages/onBoarding/on_boarding_page.dart';
 import 'package:notes_on_english_literature/widgets/button/info_button.dart';
 
 class InitialPage extends StatefulHookWidget {
-  const InitialPage();
+  const InitialPage({Key? key}) : super(key: key);
   @override
   _InitialPageState createState() => _InitialPageState();
 }
@@ -61,7 +62,43 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(bottomBarItems[_currentIndex].label!),
-        actions: (_currentIndex == 0) ? [InfoButton(onPressed: () {})] : null,
+        leading: null,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: (() {
+              // 即時関数を使う
+              switch (_currentIndex) {
+                case 0:
+                  return InfoButton(
+                    onPressed: () {},
+                  );
+                case 1:
+                  return IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 26,
+                    onPressed: () async {
+                      // TODO: 設定画面への遷移
+                      await context
+                          .read(userNotifierProvider.notifier)
+                          .signOut();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const OnBoardingPage(),
+                        ),
+                      );
+                    },
+                  );
+                case 2:
+                  return InfoButton(
+                    onPressed: () {},
+                  );
+                default:
+                  return Container();
+              }
+            })(),
+          ),
+        ],
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

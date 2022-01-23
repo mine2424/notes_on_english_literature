@@ -52,26 +52,35 @@ class NotePageNotifier extends StateNotifier<Note> {
       }
     }
 
-    // note.sentenceList = sentenceList;
-    // TODO: センテンスだけ更新されないので即時更新されるようにする。
     state = state.copyWith(sentenceList: sentenceList);
-    print('updateSentence func ${state.toJson()}');
 
-    await notesRepository.addUpdateNoteListForDB(note);
+    await notesRepository.addUpdateNoteListForDB(state);
 
-    await fetchSentenceForDB(note.noteId);
+    await fetchNoteForDB(state.noteId);
   }
 
   Future<void> fetchSentenceForDB(String noteId) async {
     final uid = userService.currentUid;
 
-    final result = await notesRepository.fetchSentenceForDB(uid, noteId);
+    // final result = await notesRepository.fetchSentenceForDB(uid, noteId);
+    final result = await notesRepository.fetchNoteForDB(uid, noteId);
 
     if (result.isError) {
       return;
     }
 
-    state = state.copyWith(sentenceList: result.asValue!.value);
+    final note = result.asValue!.value;
+
+    state = state.copyWith(
+      title: note.title,
+      noteId: note.noteId,
+      uid: note.uid,
+      imageUrl: note.imageUrl,
+      parentNoteId: note.parentNoteId,
+      isOrigin: note.isOrigin,
+      createAt: note.createAt,
+      sentenceList: note.sentenceList,
+    );
   }
 
   Future<void> fetchNoteForDB(String noteId) async {
@@ -83,7 +92,18 @@ class NotePageNotifier extends StateNotifier<Note> {
       return;
     }
 
-    state = result.asValue!.value;
+    final note = result.asValue!.value;
+
+    state = state.copyWith(
+      title: note.title,
+      noteId: note.noteId,
+      uid: note.uid,
+      imageUrl: note.imageUrl,
+      parentNoteId: note.parentNoteId,
+      isOrigin: note.isOrigin,
+      createAt: note.createAt,
+      sentenceList: note.sentenceList,
+    );
   }
 
   Future<void> deleteSentenceForDB(Note note, Sentence sentence) async {

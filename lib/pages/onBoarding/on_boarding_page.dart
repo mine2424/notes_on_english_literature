@@ -1,10 +1,8 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notes_on_english_literature/di_container.dart';
-import 'package:notes_on_english_literature/pages/initial_page.dart';
+import 'package:notes_on_english_literature/pages/auth/login_page.dart';
+import 'package:notes_on_english_literature/pages/auth/sign_up_page.dart';
 import 'package:notes_on_english_literature/widgets/button/radius_button.dart';
 
 class OnBoardingPage extends HookWidget {
@@ -57,16 +55,11 @@ class OnBoardingPage extends HookWidget {
             const SizedBox(height: 64),
             RadiusButton(
               onTapLogic: () async {
-                final isLogin = await context
-                    .read(userNotifierProvider.notifier)
-                    .signInAnonymously();
-
-                if (isLogin) {
-                  context
-                      .read(appNotifierProvider.notifier)
-                      .push(const InitialPage());
-                }
-                // TODO: isLoginがfalseの場合は、ログイン画面に遷移する
+                // 登録画面へ遷移
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignUpPage()),
+                );
               },
               text: '新しく始める',
               textStyle:
@@ -74,11 +67,13 @@ class OnBoardingPage extends HookWidget {
             ).show(context),
             RadiusButton(
               onTapLogic: () {
-                context
-                    .read(appNotifierProvider.notifier)
-                    .push(const InitialPage());
+                // ログイン画面へ遷移
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
-              text: 'データを引き継ぐ',
+              text: 'ログイン',
               textStyle: Theme.of(context)
                   .textTheme
                   .bodyText1!

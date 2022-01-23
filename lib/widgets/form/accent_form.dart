@@ -6,12 +6,14 @@ class AccentForm extends StatelessWidget {
     required this.controller,
     this.onChanged,
     this.textLines = 1,
+    this.obscureText = false,
   });
 
   final String label;
   final int? textLines;
   final TextEditingController controller;
   final Function(String)? onChanged;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class AccentForm extends StatelessWidget {
               cursorColor: Theme.of(context).colorScheme.secondary,
               controller: controller,
               onChanged: onChanged,
+              obscureText: obscureText,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   gapPadding: 16,

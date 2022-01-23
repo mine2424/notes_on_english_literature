@@ -4,18 +4,29 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notes_on_english_literature/common/helpers/structured_sentence.dart';
 import 'package:notes_on_english_literature/common/theme.dart';
 import 'package:notes_on_english_literature/di_container.dart';
+import 'package:notes_on_english_literature/domain/notes/models/note.dart';
+import 'package:notes_on_english_literature/domain/notes/models/sentence.dart';
 import 'package:notes_on_english_literature/pages/book/note/note_page_provider.dart';
 import 'package:notes_on_english_literature/pages/book/note/widgets/update_sentence_page.dart';
+import 'package:notes_on_english_literature/pages/book/sentence/widgets/update_sentence_dialog.dart';
 
 class SentencePage extends HookWidget {
-  const SentencePage({required this.sentenceIndex});
+  const SentencePage({Key? key, required this.sentenceIndex}) : super(key: key);
 
   final int sentenceIndex;
 
   @override
   Widget build(BuildContext context) {
-    final noteState = useProvider(notePageNotifierProvider);
-    final sentence = noteState.sentenceList[sentenceIndex];
+    // TODO: noteごと更新する
+    var noteState = const Note();
+    var sentence = const Sentence();
+    // TODO: Cannot listen to inherited widgets inside HookState.initState. Use HookState.build instead
+    // -> useEffect(effect)にてエラーが生じたため、ここでは使用しない
+
+    useState(() {
+      noteState = useProvider(notePageNotifierProvider);
+      sentence = noteState.sentenceList[sentenceIndex];
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -27,9 +38,11 @@ class SentencePage extends HookWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () async {
-              await context
-                  .read(appNotifierProvider.notifier)
-                  .push(UpdateSentencePage(noteState, sentence), true);
+              // TODO: Dialogで編集するようにする
+              UpdateSentenceDialog(
+                note: noteState,
+                sentence: sentence,
+              ).show(context);
             },
           )
         ],
